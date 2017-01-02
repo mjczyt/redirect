@@ -7,11 +7,11 @@ router.get('/', function (req, res, next) {
   console.log("hostname is " + req.hostname);
   switch (req.hostname) {
     case "akatbs.top":
-      res.redirect("http://118.89.45.55:2000");
+      res.redirect("http://akatbs.top:2000");
       console.log("redirect")
       break;
     case "tbsblog.top":
-      res.redirect("http://118.89.45.55:4000");
+      res.redirect("http://tbsblog.top:4000");
       break;
   }
 });
