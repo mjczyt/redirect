@@ -42,7 +42,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(2000,function(){
+app.listen(80,function(){
 console.log("start listen to 2000");
 });
 module.exports = app;

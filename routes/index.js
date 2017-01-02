@@ -6,8 +6,8 @@ router.get('/', function (req, res, next) {
 
   console.log("hostname is " + req.hostname);
   switch (req.hostname) {
-    case "localhost":
-      res.redirect("http://localhost:4000");
+    case "akatbs.top":
+      res.redirect("http://akatbs.top:2000");
       console.log("redirect")
       break;
     case "127.0.0.1":
