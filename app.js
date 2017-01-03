@@ -43,6 +43,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 app.listen(80,function(){
-console.log("start listen to 2000");
+console.log("start listen to 80");
 });
 module.exports = app;
