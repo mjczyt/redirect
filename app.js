@@ -4,11 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var wechat=require("wechat");
+var wechat = require("wechat");
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var weixin=require("./routes/weixin");
+var weixin = require("./routes/weixin");
 var app = express();
 
 // view engine setup
@@ -25,52 +25,34 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use("/weixin",weixin);
+app.use("/weixin", weixin);
 app.use('/weixin', wechat('CQYOU', function (req, res, next) {
   // message is located in req.weixin
   var message = req.weixin;
-  if (message.FromUserName === 'diaosi') {
-    // reply with text
-    res.reply('hehe');
-  } else if (message.FromUserName === 'text') {
-    // another way to reply with text
+  var pattern=/(20\d{6}) (\w*)/;
+  console.log(message.FromUserName + " ：say" + message.content);
+  if(pattern.test(message.content)){
+    var studentID=pattern.exec(message.content)[1];
+    var studentPwd=pattern.exec(message.content)[2];    
+    console.log("student");
+    console.log("id"+studentID+" password"+studentPwd);
     res.reply({
-      content: 'text object',
-      type: 'text'
-    });
-  } else if (message.FromUserName === 'hehe') {
-    // reply with music
-    res.reply({
-      type: "music",
-      content: {
-        title: "Just some music",
-        description: "I have nothing to lose",
-        musicUrl: "http://mp3.com/xx.mp3",
-        hqMusicUrl: "http://mp3.com/xx.mp3"
-      }
-    });
-  } else {
-    // reply with thumbnails posts
-    res.reply([
-      {
-        title: 'Come to fetch me',
-        description: 'or you want to play in another way ?',
-        picurl: 'http://nodeapi.cloudfoundry.com/qrcode.jpg',
-        url: 'http://nodeapi.cloudfoundry.com/'
-      }
-    ]);
+    type: "text",
+    content: "grade"
+  });
   }
+  
 }));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -79,7 +61,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(80,function(){
-console.log("start listen to 80");
+app.listen(80, function () {
+  console.log("start listen to 80");
 });
 module.exports = app;
