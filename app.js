@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var wechat=require("wechat");
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -25,6 +26,41 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use("/weixin",weixin);
+app.use('/weixin', wechat('CQYOU', function (req, res, next) {
+  // message is located in req.weixin
+  var message = req.weixin;
+  if (message.FromUserName === 'diaosi') {
+    // reply with text
+    res.reply('hehe');
+  } else if (message.FromUserName === 'text') {
+    // another way to reply with text
+    res.reply({
+      content: 'text object',
+      type: 'text'
+    });
+  } else if (message.FromUserName === 'hehe') {
+    // reply with music
+    res.reply({
+      type: "music",
+      content: {
+        title: "Just some music",
+        description: "I have nothing to lose",
+        musicUrl: "http://mp3.com/xx.mp3",
+        hqMusicUrl: "http://mp3.com/xx.mp3"
+      }
+    });
+  } else {
+    // reply with thumbnails posts
+    res.reply([
+      {
+        title: 'Come to fetch me',
+        description: 'or you want to play in another way ?',
+        picurl: 'http://nodeapi.cloudfoundry.com/qrcode.jpg',
+        url: 'http://nodeapi.cloudfoundry.com/'
+      }
+    ]);
+  }
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
