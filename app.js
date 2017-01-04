@@ -30,10 +30,10 @@ app.use('/weixin', wechat('CQYOU', function (req, res, next) {
   // message is located in req.weixin
   var message = req.weixin;
   var pattern=/(20\d{6}) (\w*)/;
-  console.log(message.FromUserName + " ：say" + message.content);
-  if(pattern.test(message.content)){
-    var studentID=pattern.exec(message.content)[1];
-    var studentPwd=pattern.exec(message.content)[2];    
+  console.log(message.FromUserName + " ：say" + message.Content);
+  if(pattern.test(message.Content)){
+    var studentID=pattern.exec(message.Content)[1];
+    var studentPwd=pattern.exec(message.Content)[2];    
     console.log("student");
     console.log("id"+studentID+" password"+studentPwd);
     res.reply({
