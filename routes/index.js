@@ -7,6 +7,7 @@ router.get('/', function (req, res, next) {
   console.log("hostname is " + req.hostname);
   switch (req.hostname) {
     case "cqyou.top":
+    console.log(req.path);
       if (req.path == "/weixin") {
         res.redirect("http://cqyou.top:2000/weixin");
         console.log("redirect to http://cqyou.top:2000/weixin")        
