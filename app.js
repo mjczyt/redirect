@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var wechat = require("wechat");
+const cmd = require("child_process").exec;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -29,19 +30,22 @@ app.use("/weixin", weixin);
 app.use('/weixin', wechat('CQYOU', function (req, res, next) {
   // message is located in req.weixin
   var message = req.weixin;
-  var pattern=/(20\d{6}) (\w*)/;
-  console.log(message.FromUserName + " ：say" + message.Content);
-  if(pattern.test(message.Content)){
-    var studentID=pattern.exec(message.Content)[1];
-    var studentPwd=pattern.exec(message.Content)[2];    
+  var pattern = /(20\d{6}) (\w*)/;
+  if (pattern.test(message.Content)) {
+    var studentID = pattern.exec(message.Content)[1];
+    var studentPwd = pattern.exec(message.Content)[2];
     console.log("student");
-    console.log("id"+studentID+" password"+studentPwd);
-    res.reply({
-    type: "text",
-    content: "grade"
-  });
+    console.log("id:" + studentID + " password:" + studentPwd);
+    cmd("node login " + studentID + " " + studentPwd + " " + 1, function (err, stdout, stderr) {
+      var content = JSON.parse(stdout);
+      res.reply({
+        type: "text",
+        content: content.grade
+      });
+    });
+
   }
-  
+
 }));
 
 // catch 404 and forward to error handler
