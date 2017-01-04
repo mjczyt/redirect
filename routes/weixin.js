@@ -1,7 +1,14 @@
 var express = require('express');
 var router = express.Router();
+var crypto = require("crypto");
 var parseString = require('xml2js').parseString;
 
+function sha1(str) {
+  var md5sum = crypto.createHash("sha1");
+  md5sum.update(str);
+  str = md5sum.digest("hex");
+  return str;
+}
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.redirect("http://cqyou.top:2000"+req.originalUrl);
