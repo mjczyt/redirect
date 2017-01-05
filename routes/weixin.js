@@ -3,13 +3,7 @@ var router = express.Router();
 var superagent = require("superagent");
 var wechat = require("wechat");
 
-
-
-/* GET users listing. */
-// router.get('/', function (req, res, next) {
-//   res.redirect("http://cqyou.top:2000"+req.originalUrl);
-//   console.log("redirect to http://cqyou.top:2000"+req.originalUrl);   
-// });
+//微信传来学号和密码时返回学生成绩
 router.post('/', wechat('CQYOU', function (request, response, next) {
   // message is located in req.weixin
   var message = request.weixin;
