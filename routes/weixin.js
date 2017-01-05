@@ -10,7 +10,7 @@ var wechat = require("wechat");
 //   res.redirect("http://cqyou.top:2000"+req.originalUrl);
 //   console.log("redirect to http://cqyou.top:2000"+req.originalUrl);   
 // });
-router.get('/', wechat('CQYOU', function (request, response, next) {
+router.post('/', wechat('CQYOU', function (request, response, next) {
   // message is located in req.weixin
   var message = request.weixin;
   var pattern = /(20\d{6}) (\w*)/;
