@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use("/weixin", weixin);
-app.use('/weixin', wechat('CQYOU', function (request, respond, next) {
+app.use('/weixin', wechat('CQYOU', function (request, response, next) {
   // message is located in req.weixin
   var message = request.weixin;
   var pattern = /(20\d{6}) (\w*)/;
@@ -49,7 +49,7 @@ app.use('/weixin', wechat('CQYOU', function (request, respond, next) {
         if (err || !res.ok) {
           console.log('Oh no! error');
         } else {
-          request.reply({
+          response.reply({
             type: "text",
             content: res.body.grade
           })
