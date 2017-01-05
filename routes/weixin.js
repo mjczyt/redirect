@@ -26,9 +26,15 @@ router.post('/', wechat('CQYOU', function (request, response, next) {
         if (err || !res.ok) {
           console.log('Oh no! error');
         } else {
+          var stuGrade="您的成绩：\n";
+          var gradeStr=res.body.grade;
+          var gradeArry=gradeStr.split(',');
+          for(let i=0;i<gradeArry.length;i++){
+            stuGrade+=gradeArry[i]+"\n";
+          }
           response.reply({
             type: "text",
-            content: res.body.grade
+            content: stuGrade
           })
         }
       });
