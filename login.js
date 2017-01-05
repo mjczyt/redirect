@@ -14,6 +14,7 @@ var cmd = require("child_process").exec;
 var cookie = "";
 const charset = require('superagent-charset');
 charset(superagent);
+const patternClassName= /\[\w*\]([^\x00-\xff]*\w*)/;
 
 var MD5code = "";
 
@@ -92,7 +93,7 @@ function login() {
               week = changeWeekFormat(week);
               if (name != "") {
                 var classInfo = {
-                  lessonName: name,
+                  lessonName: patternClassName.exec(name)[1],
                   lessonCredit: credit,
                   lessonPeriod: period,
                   lessonCategory: category,
@@ -126,7 +127,7 @@ function login() {
             for (let i = 2; i < $secondPageClass.length; i++) {
               var isRepeat = false;
               var content = $($secondPageClass[i]).find("td");
-              var name = $(content[1]).text();
+              var name = $(content[1]).text();           
               var credit = $(content[2]).text();
               var period = $(content[3]).text();
               var teacher = $(content[7]).text();
@@ -135,7 +136,7 @@ function login() {
               var room = $(content[11]).text();
               week = changeWeekFormat(week);
               var classInfo = {
-                lessonName: name,
+                lessonName: name?patternClassName.exec(name)[1]:name,
                 lessonCredit: credit,
                 lessonPeriod: period,
                 lessonTeacher: teacher,
@@ -180,12 +181,12 @@ function login() {
                 var type = $(content[3]).text();
                 var grade = $(content[6]).text();
                 var gradeInfo = {
-                  lessonName: name,
+                  lessonName: patternClassName.exec(name)[1],
                   lessonCredit: credit,
                   lessonType: type,
                   lessonGrade: grade
                 }
-                gradePrint.push(name + " : " + grade);
+                gradePrint.push(patternClassName.exec(name)[1] + " : " + grade);
                 gradeArry.push(gradeInfo)
               }
 
