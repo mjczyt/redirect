@@ -4,8 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var wechat = require("wechat");
-var superagent = require("superagent");
+// var wechat = require("wechat");
+// var superagent = require("superagent");
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -27,36 +27,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use("/weixin", weixin);
-app.use('/weixin', wechat('CQYOU', function (request, response, next) {
-  // message is located in req.weixin
-  var message = request.weixin;
-  var pattern = /(20\d{6}) (\w*)/;
-  if (pattern.test(message.Content)) {
-    var studentID = pattern.exec(message.Content)[1];
-    var studentPwd = pattern.exec(message.Content)[2];
-    console.log("student");
-    console.log("id:" + studentID + " password:" + studentPwd);
-    superagent
-      .post('http://cqyou.top:5000/api/grade')
-      .send({
-        "stdid": studentID,
-        "stdpwd": studentPwd
-      })
-      .set('Content-Type', 'application/json')
-      .redirects(0)
-      .accept('application/json')
-      .end(function (err, res) {
-        if (err || !res.ok) {
-          console.log('Oh no! error');
-        } else {
-          response.reply({
-            type: "text",
-            content: res.body.grade
-          })
-        }
-      });
-  }
-}));
+// app.use('/weixin', wechat('CQYOU', function (request, response, next) {
+//   // message is located in req.weixin
+//   var message = request.weixin;
+//   var pattern = /(20\d{6}) (\w*)/;
+//   if (pattern.test(message.Content)) {
+//     var studentID = pattern.exec(message.Content)[1];
+//     var studentPwd = pattern.exec(message.Content)[2];
+//     console.log("student");
+//     console.log("id:" + studentID + " password:" + studentPwd);
+//     superagent
+//       .post('http://cqyou.top:5000/api/grade')
+//       .send({
+//         "stdid": studentID,
+//         "stdpwd": studentPwd
+//       })
+//       .set('Content-Type', 'application/json')
+//       .redirects(0)
+//       .accept('application/json')
+//       .end(function (err, res) {
+//         if (err || !res.ok) {
+//           console.log('Oh no! error');
+//         } else {
+//           response.reply({
+//             type: "text",
+//             content: res.body.grade
+//           })
+//         }
+//       });
+//   }
+// }));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
