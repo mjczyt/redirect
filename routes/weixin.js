@@ -28,6 +28,7 @@ router.post('/', wechat('CQYOU', function (request, response, next) {
         } else {
           var stuGrade="您的成绩：\n";
           var gradeStr=JSON.stringify(res.body.grade);
+          gradeStr=grade.slice(1,-1);
           var gradeArry=gradeStr.split(',');
           for(let i=0;i<gradeArry.length;i++){
             stuGrade+=gradeArry[i]+"\n";
