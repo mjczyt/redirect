@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose=require("mongoose");
+global.db=mongoose.connect("mongodb://127.0.0.1:27017/weixin")
 
 
 var index = require('./routes/index');
