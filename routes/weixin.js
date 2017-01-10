@@ -62,9 +62,32 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         model.findOne({ openid: request.query.openid }, function(err, std) {
             if (err) { console.log(err) } else {
                 if (std != null) {
-                    var studentId = std.studentId;
-                    var studentPwd = std.studentPassword;
-                    console.log(studentId);
+                    superagent
+                        .post('http://cqyou.top:5000/api/grade')
+                        .send({
+                            "stdid": std.studentId,
+                            "stdpwd": std.studentPassword
+                        })
+                        .set('Content-Type', 'application/json')
+                        .redirects(0)
+                        .accept('application/json')
+                        .end(function(err, res) {
+                            if (err || !res.ok) {
+                                console.log('Oh no! error');
+                            } else {
+                                var stuGrade = "您的成绩：\n";
+                                var gradeStr = JSON.stringify(res.body.grade);
+                                gradeStr = gradeStr.slice(1, -1);
+                                var gradeArry = gradeStr.split(',');
+                                for (let i = 0; i < gradeArry.length; i++) {
+                                    stuGrade += gradeArry[i] + "\n";
+                                }
+                                response.reply({
+                                    type: "text",
+                                    content: stuGrade
+                                })
+                            }
+                        });
                 } else {
                     response.reply({
                         type: "text",
