@@ -41,7 +41,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 }
             });
 
-        model.findOne({ openid: req.query.openid }, function(err, std) {
+        model.findOne({ openid: request.query.openid }, function(err, std) {
             if (err) { console.log(err) } else {
                 if (std == null) {
                     var student = new model({
