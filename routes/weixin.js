@@ -53,13 +53,25 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     console.log("saved new student infomation in database!");
                     model.find(function(err, std) {
                         if (err) { console.log(err) } else { console.log(std) }
-                    });   
+                    });
                 }
             }
         })
 
     } else if (message.Content == "成绩") {
-
+        model.findOne({ openid: request.query.openid }, function(err, std) {
+            if (err) { console.log(err) } else {
+                if (std != null)
+                    var studentId = std.studentId;
+                var studentPwd = studentPassword;
+                console.log(studentId);
+            } else {
+                response.reply({
+                    type: "text",
+                    content: "请先输入学号 密码 绑定教务网账号"
+                })
+            }
+        })
     }
 }));
 
