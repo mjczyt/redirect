@@ -6,7 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose=require("mongoose");
 global.db=mongoose.connect("mongodb://127.0.0.1:27017/weixin")
-
+db.on('error', function(error) {
+    console.log(error);
+});
 
 var index = require('./routes/index');
 var users = require('./routes/users');

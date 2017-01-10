@@ -40,15 +40,24 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     })
                 }
             });
-        var student = new model({
-            openid: request.query.openid,
-            studentId: studentID,
-            studentPassword: studentPwd
-        });
-        student.save();
-        model.find(function(err, std) {
-            if (err) { console.log(err) } else { console.log(std) }
+
+        model.findOne({ openid: req.query.openid }, function(err, std) {
+            if (err) { console.log(err) } else {
+                if (std == null) {
+                    var student = new model({
+                        openid: request.query.openid,
+                        studentId: studentID,
+                        studentPassword: studentPwd
+                    });
+                    student.save();
+                    console.log("saved new student infomation in database!");
+                    model.find(function(err, std) {
+                        if (err) { console.log(err) } else { console.log(std) }
+                    });   
+                }
+            }
         })
+
     } else if (message.Content == "成绩") {
 
     }
