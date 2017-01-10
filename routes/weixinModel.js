@@ -6,4 +6,5 @@ var weixinSchema=mongoose.Schema({
 	studentId:String,
 	studentPassword:String
 });
-module.export=db.model("weixinModel",weixinSchema)
+/* global db */
+module.exports=db.model("weixinModel",weixinSchema);
