@@ -63,7 +63,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             if (err) { console.log(err) } else {
                 if (std != null) {
                     var studentId = std.studentId;
-                    var studentPwd = studentPassword;
+                    var studentPwd = std.studentPassword;
                     console.log(studentId);
                 } else {
                     response.reply({
