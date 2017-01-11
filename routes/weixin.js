@@ -92,7 +92,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 } else {
                     response.reply({
                         type: "text",
-                        content: "请先回复学号 密码 绑定教务网账号 如回复 20142794 112233"
+                        content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
                     })
                 }
             }
@@ -132,7 +132,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 } else {
                     response.reply({
                         type: "text",
-                        content: "请先输入学号 密码 绑定教务网账号"
+                        content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
                     })
                 }
             }
