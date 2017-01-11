@@ -106,8 +106,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         .post('http://cqyou.top:5000/api/schedule')
                         .send({
                             "stdid": std.studentId,
-                            "stdpwd": std.studentPassword
-                            'week':1
+                            "stdpwd": std.studentPassword,
+                            'week': 1
                         })
                         .set('Content-Type', 'application/json')
                         .redirects(0)
