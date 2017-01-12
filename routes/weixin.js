@@ -138,6 +138,13 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             }
         })
     }
+    if (message.Content == "解除绑定") {
+        model.findOne({ openid: request.query.openid }, function(err, std) {
+            if (err) { console.log(err) } else {
+                model.remove({ openid: request.query.openid });
+            }
+        })
+    }
 }));
 
 module.exports = router;
