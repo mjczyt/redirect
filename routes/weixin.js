@@ -3,6 +3,29 @@ var router = express.Router();
 var superagent = require("superagent");
 var wechat = require("wechat");
 var model = require("./weixinModel");
+var crypto = require("crypto");
+
+function sha1(str) {
+  var md5sum = crypto.createHash("sha1");
+  md5sum.update(str);
+  str = md5sum.digest("hex");
+  return str;
+}
+//微信服务器验证程序
+router.get('/', function (req, res, next) {
+  var signature = req.query.signature;
+  var nonce = req.query.nonce;
+  var timestamp = req.query.timestamp;
+  var echostr = req.query.echostr;
+  var temArray = [timestamp, "CQYOU", nonce].sort();
+  var tem = temArray.join('');
+  var scyptoString = sha1(tem);
+  if (scyptoString == signature) {
+    res.send(echostr);
+  } else { console.log(tem) }
+});
+
+
 //微信传来学号和密码时返回学生成绩
 router.post('/', wechat('CQYOU', function(request, response, next) {
     // message is located in req.weixin
@@ -139,11 +162,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         })
     }
     if (message.Content == "解除绑定") {
-        model.findOne({ openid: request.query.openid }, function(err, std) {
-            if (err) { console.log(err) } else {
-                model.remove({ openid: request.query.openid });
-            }
-        })
+        model.remove({ openid: request.query.openid },function(){
+            console.log("delect data of "+request.query.openid);
+        });
     }
 }));
 
