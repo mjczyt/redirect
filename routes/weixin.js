@@ -82,6 +82,12 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         })
 
     }
+    if (message.Event == 'subscribe') {
+        response.reply({
+            type: "text",
+            content: '欢迎关注。回复“成绩”、“grade”、“g"查看个人成绩。 回复“课表”、“class"、”c”查看本周课表。若第一次密码输入错误回复“解除绑定”可重新绑定教务网账号。'
+        })
+    }
     if (message.Content == "成绩" || message.Content == "grade" || message.Content == "g") {
         model.findOne({ openid: request.query.openid }, function(err, std) {
             if (err) { console.log(err) } else {
