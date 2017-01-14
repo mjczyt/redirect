@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
 router.post('/', wechat('CQYOU', function(request, response, next) {
     // message is located in req.weixin
     var message = request.weixin;
-    var pattern = /(20\d{6}) (\w*)/;
+    var pattern = /(20\d{6}) (.*)/;
     //得到学号密码后绑定并回复成绩
     if (pattern.test(message.Content)) {
         var studentID = pattern.exec(message.Content)[1];
