@@ -63,7 +63,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     })
                 }
             });
-            superagent
+        superagent
             .post('http://cqyou.top:5001/api/grade')
             .send({
                 "stdid": studentID,
@@ -100,9 +100,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     });
                     student.save();
                     console.log("saved new student infomation in database!");
-                    model.find(function(err, std) {
-                        if (err) { console.log(err) } else { console.log(std) }
-                    });
+                   
                 }
             }
         })
@@ -145,7 +143,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                             }
                         });
 
-                        superagent
+                    superagent
                         .post('http://cqyou.top:5001/api/grade')
                         .send({
                             "stdid": std.studentId,
@@ -212,7 +210,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                             }
                         });
 
-                         superagent
+                    superagent
                         .post('http://cqyou.top:5001/api/schedule')
                         .send({
                             "stdid": std.studentId,
