@@ -61,9 +61,10 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         type: "text",
                         content: stuGrade
                     });
-                    return;
                 }
             });
+        return;
+
         superagent
             .post('http://cqyou.top:5001/api/grade')
             .send({
@@ -88,10 +89,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         type: "text",
                         content: stuGrade
                     });
-                    return;
 
                 }
             });
+        return;
+
 
         model.findOne({ openid: request.query.openid }, function(err, std) {
             if (err) { console.log(err) } else {
@@ -143,10 +145,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuGrade
                                 });
-                                return;
 
                             }
                         });
+                    return;
+
 
                     superagent
                         .post('http://cqyou.top:5001/api/grade')
@@ -172,10 +175,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuGrade
                                 });
-                                return;
 
                             }
                         });
+                    return;
+
                 } else {
                     response.reply({
                         type: "text",
@@ -214,10 +218,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuSchedule
                                 });
-                                return;
 
                             }
                         });
+                    return;
+
 
                     superagent
                         .post('http://cqyou.top:5001/api/schedule')
@@ -244,10 +249,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuSchedule
                                 });
-                                return;
 
                             }
                         });
+                    return;
+
                 } else {
                     response.reply({
                         type: "text",
