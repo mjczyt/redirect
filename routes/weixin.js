@@ -60,7 +60,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     response.reply({
                         type: "text",
                         content: stuGrade
-                    })
+                    });
+                    return;
                 }
             });
         superagent
@@ -86,7 +87,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     response.reply({
                         type: "text",
                         content: stuGrade
-                    })
+                    });
+                    return;
+
                 }
             });
 
@@ -100,7 +103,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     });
                     student.save();
                     console.log("saved new student infomation in database!");
-                   
+
                 }
             }
         })
@@ -139,7 +142,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 response.reply({
                                     type: "text",
                                     content: stuGrade
-                                })
+                                });
+                                return;
+
                             }
                         });
 
@@ -166,7 +171,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 response.reply({
                                     type: "text",
                                     content: stuGrade
-                                })
+                                });
+                                return;
+
                             }
                         });
                 } else {
@@ -206,7 +213,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 response.reply({
                                     type: "text",
                                     content: stuSchedule
-                                })
+                                });
+                                return;
+
                             }
                         });
 
@@ -234,7 +243,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 response.reply({
                                     type: "text",
                                     content: stuSchedule
-                                })
+                                });
+                                return;
+
                             }
                         });
                 } else {
