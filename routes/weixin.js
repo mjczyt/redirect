@@ -61,9 +61,10 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         type: "text",
                         content: stuGrade
                     });
+                    response.end();
                 }
             });
-        return;
+
 
         superagent
             .post('http://cqyou.top:5001/api/grade')
@@ -89,10 +90,12 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         type: "text",
                         content: stuGrade
                     });
+                    response.end();
+
 
                 }
             });
-        return;
+
 
 
         model.findOne({ openid: request.query.openid }, function(err, std) {
@@ -145,10 +148,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuGrade
                                 });
+                                response.end();
 
                             }
                         });
-                    return;
+
 
 
                     superagent
@@ -175,10 +179,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuGrade
                                 });
+                                response.end();
 
                             }
                         });
-                    return;
+
 
                 } else {
                     response.reply({
@@ -218,10 +223,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuSchedule
                                 });
+                                response.end();
 
                             }
                         });
-                    return;
+
 
 
                     superagent
@@ -249,10 +255,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                     type: "text",
                                     content: stuSchedule
                                 });
+                                response.end();
 
                             }
                         });
-                    return;
+
 
                 } else {
                     response.reply({
