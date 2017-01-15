@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
 //微信传来学号和密码时返回学生成绩
 router.post('/', wechat('CQYOU', function(request, response, next) {
     // message is located in req.weixin
+    var replied = false;
     var message = request.weixin;
     var pattern = /(20\d{6}) (.*)/;
     //得到学号密码后绑定并回复成绩
@@ -57,11 +58,14 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     for (let i = 0; i < gradeArry.length; i++) {
                         stuGrade += gradeArry[i] + "\n";
                     }
-                    response.reply({
-                        type: "text",
-                        content: stuGrade
-                    });
-                    response.end();
+                    if (replied == false) {
+                        response.reply({
+                            type: "text",
+                            content: stuGrade
+                        });
+                        replied = true;
+                    }
+
                 }
             });
 
@@ -86,12 +90,13 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     for (let i = 0; i < gradeArry.length; i++) {
                         stuGrade += gradeArry[i] + "\n";
                     }
-                    response.reply({
-                        type: "text",
-                        content: stuGrade
-                    });
-                    response.end();
-
+                    if (replied == false) {
+                        response.reply({
+                            type: "text",
+                            content: stuGrade
+                        });
+                        replied = true;
+                    }
 
                 }
             });
@@ -122,8 +127,11 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     }
     if (message.Content == "成绩" || message.Content == "grade" || message.Content == "g") {
         model.findOne({ openid: request.query.openid }, function(err, std) {
+            var replied = false;
+
             if (err) { console.log(err) } else {
                 if (std != null) {
+
                     superagent
                         .post('http://cqyou.top:5000/api/grade')
                         .send({
@@ -144,11 +152,15 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 for (let i = 0; i < gradeArry.length; i++) {
                                     stuGrade += gradeArry[i] + "\n";
                                 }
-                                response.reply({
-                                    type: "text",
-                                    content: stuGrade
-                                });
-                                response.end();
+                                if (replied == false) {
+                                    response.reply({
+                                        type: "text",
+                                        content: stuGrade
+                                    });
+                                    replied = true;
+                                }
+
+
 
                             }
                         });
@@ -175,11 +187,15 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 for (let i = 0; i < gradeArry.length; i++) {
                                     stuGrade += gradeArry[i] + "\n";
                                 }
-                                response.reply({
-                                    type: "text",
-                                    content: stuGrade
-                                });
-                                response.end();
+                                if (replied == false) {
+                                    response.reply({
+                                        type: "text",
+                                        content: stuGrade
+                                    });
+                                    replied = true;
+                                }
+
+
 
                             }
                         });
@@ -196,6 +212,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     }
     if (message.Content == '课表' || message.Content == "class" || message.Content == "c") {
         model.findOne({ openid: request.query.openid }, function(err, std) {
+            var replied = false;
+
             if (err) { console.log(err) } else {
                 if (std != null) {
                     superagent
@@ -219,11 +237,15 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 for (let i = 0; i < scheduleArry.length; i++) {
                                     stuSchedule += scheduleArry[i] + "\n";
                                 }
-                                response.reply({
-                                    type: "text",
-                                    content: stuSchedule
-                                });
-                                response.end();
+                                if (replied == false) {
+                                    response.reply({
+                                        type: "text",
+                                        content: stuSchedule
+                                    });
+                                    replied = true;
+                                }
+
+
 
                             }
                         });
@@ -251,11 +273,13 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 for (let i = 0; i < scheduleArry.length; i++) {
                                     stuSchedule += scheduleArry[i] + "\n";
                                 }
-                                response.reply({
-                                    type: "text",
-                                    content: stuSchedule
-                                });
-                                response.end();
+                                if (replied == false) {
+                                    response.reply({
+                                        type: "text",
+                                        content: stuSchedule
+                                    });
+                                    replied = true;
+                                }
 
                             }
                         });
