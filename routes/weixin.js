@@ -311,7 +311,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 var s = b.toString('base64');
                 response.reply({
                     type: "text",
-                    content: "cqyou.top:2000/class/" + std.studentId + "/" + s;
+                    content: "cqyou.top:2000/class/" + std.studentId + "/" + s
                 })
             } else {
                 response.reply({
