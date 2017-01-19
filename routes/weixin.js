@@ -303,6 +303,24 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             })
         });
     }
+    if (message.Content == "课程表") {
+        model.findOne({ openid: request.query.openid }, function(err, std) {
+            if (std) {
+                //对密码进行bsae64编码
+                var b = new Buffer(std.studentPassword);
+                var s = b.toString('base64');
+                response.reply({
+                    type: "text",
+                    content: "cqyou.top:2000/class/" + std.studentId + "/" + s;
+                })
+            } else {
+                response.reply({
+                    type: "text",
+                    content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
+                })
+            }
+        });
+    }
 }));
 
 
