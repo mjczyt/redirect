@@ -310,7 +310,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 var b = new Buffer(std.studentPassword);
                 var s = b.toString('base64');
 
-                res.reply([{
+                response.reply([{
                     title: '您的课表 (。・∀・)ノ゛',
                     description: 'come to see this',
                     picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
