@@ -210,90 +210,6 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             }
         })
     }
-    if (message.Content == '课表' || message.Content == "class" || message.Content == "c") {
-        model.findOne({ openid: request.query.openid }, function(err, std) {
-            var replied = false;
-
-            if (err) { console.log(err) } else {
-                if (std != null) {
-                    superagent
-                        .post('http://cqyou.top:5000/api/schedule')
-                        .send({
-                            "stdid": std.studentId,
-                            "stdpwd": std.studentPassword,
-                            'week': 1
-                        })
-                        .set('Content-Type', 'application/json')
-                        .redirects(0)
-                        .accept('application/json')
-                        .end(function(err, res) {
-                            if (err || !res.ok) {
-                                console.log('Oh no! error');
-                            } else {
-                                var stuSchedule = "您的课表：\n";
-                                var schedule = JSON.stringify(res.body.classTable);
-                                schedule = schedule.slice(1, -1);
-                                var scheduleArry = schedule.split(',');
-                                for (let i = 0; i < scheduleArry.length; i++) {
-                                    stuSchedule += scheduleArry[i] + "\n";
-                                }
-                                if (replied == false) {
-                                    response.reply({
-                                        type: "text",
-                                        content: stuSchedule
-                                    });
-                                    replied = true;
-                                }
-
-
-
-                            }
-                        });
-
-
-
-                    superagent
-                        .post('http://cqyou.top:5001/api/schedule')
-                        .send({
-                            "stdid": std.studentId,
-                            "stdpwd": std.studentPassword,
-                            'week': 1
-                        })
-                        .set('Content-Type', 'application/json')
-                        .redirects(0)
-                        .accept('application/json')
-                        .end(function(err, res) {
-                            if (err || !res.ok) {
-                                console.log('Oh no! error');
-                            } else {
-                                var stuSchedule = "您的课表：\n";
-                                var schedule = JSON.stringify(res.body.classTable);
-                                schedule = schedule.slice(1, -1);
-                                var scheduleArry = schedule.split(',');
-                                for (let i = 0; i < scheduleArry.length; i++) {
-                                    stuSchedule += scheduleArry[i] + "\n";
-                                }
-                                if (replied == false) {
-                                    response.reply({
-                                        type: "text",
-                                        content: stuSchedule
-                                    });
-                                    replied = true;
-                                }
-
-                            }
-                        });
-
-
-                } else {
-                    response.reply({
-                        type: "text",
-                        content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
-                    })
-                }
-            }
-        })
-    }
     if (message.Content == "解除绑定") {
         model.remove({ openid: request.query.openid }, function() {
             console.log("delect data of " + request.query.openid);
@@ -303,7 +219,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             })
         });
     }
-    if (message.Content == "课程表") {
+    if (message.Content == "课程表"||message.Content == '课表' || message.Content == "class" || message.Content == "c") {
         model.findOne({ openid: request.query.openid }, function(err, std) {
             if (std) {
                 //对密码进行bsae64编码
