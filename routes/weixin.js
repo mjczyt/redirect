@@ -309,10 +309,13 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 //对密码进行bsae64编码
                 var b = new Buffer(std.studentPassword);
                 var s = b.toString('base64');
-                response.reply({
-                    type: "text",
-                    content: "cqyou.top:2000/class/" + std.studentId + "/" + s
-                })
+
+                res.reply([{
+                    title: '您的课表 (。・∀・)ノ゛',
+                    description: 'come to see this',
+                    picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                    url: "cqyou.top:2000/class/" + std.studentId + "/" + s
+                }]);
             } else {
                 response.reply({
                     type: "text",
