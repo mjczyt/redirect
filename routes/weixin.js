@@ -71,7 +71,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 
 
         superagent
-            .post('http://cqyou.top:5001/api/grade')
+            .post('http://cqyou.top:5000/apiB/grade')
             .send({
                 "stdid": studentID,
                 "stdpwd": studentPwd
@@ -168,7 +168,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 
 
                     superagent
-                        .post('http://cqyou.top:5001/api/grade')
+                        .post('http://cqyou.top:5000/apiB/grade')
                         .send({
                             "stdid": std.studentId,
                             "stdpwd": std.studentPassword
