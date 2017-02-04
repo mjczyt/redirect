@@ -42,7 +42,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             .post('http://cqyou.top:5000/api/grade')
             .send({
                 "stdid": studentID,
-                "stdpwd": studentPwd
+                "stdpwd": new Buffer(studentPwd).toString('base64');
             })
             .set('Content-Type', 'application/json')
             .redirects(0)
@@ -74,7 +74,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             .post('http://cqyou.top:5000/apiB/grade')
             .send({
                 "stdid": studentID,
-                "stdpwd": studentPwd
+                "stdpwd": new Buffer(studentPwd).toString('base64');
             })
             .set('Content-Type', 'application/json')
             .redirects(0)
@@ -136,7 +136,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         .post('http://cqyou.top:5000/api/grade')
                         .send({
                             "stdid": std.studentId,
-                            "stdpwd": std.studentPassword
+                            "stdpwd": new Buffer(std.studentPassword).toString('base64');
                         })
                         .set('Content-Type', 'application/json')
                         .redirects(0)
@@ -171,7 +171,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         .post('http://cqyou.top:5000/apiB/grade')
                         .send({
                             "stdid": std.studentId,
-                            "stdpwd": std.studentPassword
+                            "stdpwd": new Buffer(std.studentPassword).toString('base64');
                         })
                         .set('Content-Type', 'application/json')
                         .redirects(0)
@@ -223,8 +223,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         model.findOne({ openid: request.query.openid }, function(err, std) {
             if (std) {
                 //对密码进行bsae64编码
-                var b = new Buffer(std.studentPassword);
-                var s = b.toString('base64');
+                var s = new Buffer(std.studentPassword).toString('base64');
 
                 response.reply([{
                     title: '您的课表 (。・∀・)ノ゛',
