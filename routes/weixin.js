@@ -229,7 +229,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     title: '您的课表 (。・∀・)ノ゛',
                     description: 'come to see this',
                     picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                    url: "cqyou.top:2000/class/" + std.studentId + "/" + s
+                    url: "cqyou.top:2000/main/" + std.studentId + "/" + s
                 }]);
             } else {
                 response.reply({
