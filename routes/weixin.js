@@ -38,6 +38,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         var studentPwd = pattern.exec(message.Content)[2];
         console.log("student");
         console.log("id:" + studentID + " password:" + studentPwd);
+
         superagent
             .post('http://cqyou.top:5000/api/grade')
             .send({
@@ -49,23 +50,36 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             .accept('application/json')
             .end(function(err, res) {
                 if (err || !res.ok) {
-                    console.log('Oh no! error');
+                    response.reply({
+                        type: "text",
+                        content: "天哪~服务器出问题啦！"
+                    });
                 } else {
-                    var stuGrade = "您的成绩：\n";
-                    var gradeStr = JSON.stringify(res.body.grade);
-                    gradeStr = gradeStr.slice(1, -1);
-                    var gradeArry = gradeStr.split(',');
-                    for (let i = 0; i < gradeArry.length; i++) {
-                        stuGrade += gradeArry[i] + "\n";
+                    var pattern = /(账号或密码输入有误哟.)/;
+                    if (pattern.exec(res.text) == null) {
+                        var stuGrade = "您的成绩：\n";
+                        var gradeStr = JSON.stringify(res.body.grade);
+                        gradeStr = gradeStr.slice(1, -1);
+                        var gradeArry = gradeStr.split(',');
+                        for (let i = 0; i < gradeArry.length; i++) {
+                            stuGrade += gradeArry[i] + "\n";
+                        }
+                        if (!replied) {
+                            response.reply({
+                                type: "text",
+                                content: stuGrade
+                            });
+                            replied = true;
+                        }
+                    } else {
+                        if (!replied) {
+                            response.reply({
+                                type: "text",
+                                content: "账号或密码输入有误哟."
+                            });
+                            replied = true;
+                        }
                     }
-                    if (replied == false) {
-                        response.reply({
-                            type: "text",
-                            content: stuGrade
-                        });
-                        replied = true;
-                    }
-
                 }
             });
 
@@ -81,23 +95,36 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             .accept('application/json')
             .end(function(err, res) {
                 if (err || !res.ok) {
-                    console.log('Oh no! error');
+                    response.reply({
+                        type: "text",
+                        content: "天哪~服务器出问题啦！"
+                    });
                 } else {
-                    var stuGrade = "您的成绩：\n";
-                    var gradeStr = JSON.stringify(res.body.grade);
-                    gradeStr = gradeStr.slice(1, -1);
-                    var gradeArry = gradeStr.split(',');
-                    for (let i = 0; i < gradeArry.length; i++) {
-                        stuGrade += gradeArry[i] + "\n";
+                    var pattern = /(账号或密码输入有误哟.)/;
+                    if (pattern.exec(res.text) == null) {
+                        var stuGrade = "您的成绩：\n";
+                        var gradeStr = JSON.stringify(res.body.grade);
+                        gradeStr = gradeStr.slice(1, -1);
+                        var gradeArry = gradeStr.split(',');
+                        for (let i = 0; i < gradeArry.length; i++) {
+                            stuGrade += gradeArry[i] + "\n";
+                        }
+                        if (!replied) {
+                            response.reply({
+                                type: "text",
+                                content: stuGrade
+                            });
+                            replied = true;
+                        }
+                    } else {
+                        if (!replied) {
+                            response.reply({
+                                type: "text",
+                                content: "账号或密码输入有误哟."
+                            });
+                            replied = true;
+                        }
                     }
-                    if (replied == false) {
-                        response.reply({
-                            type: "text",
-                            content: stuGrade
-                        });
-                        replied = true;
-                    }
-
                 }
             });
 
@@ -143,25 +170,36 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         .accept('application/json')
                         .end(function(err, res) {
                             if (err || !res.ok) {
-                                console.log('Oh no! error');
+                                response.reply({
+                                    type: "text",
+                                    content: "天哪~服务器出问题啦！"
+                                });
                             } else {
-                                var stuGrade = "您的成绩：\n";
-                                var gradeStr = JSON.stringify(res.body.grade);
-                                gradeStr = gradeStr.slice(1, -1);
-                                var gradeArry = gradeStr.split(',');
-                                for (let i = 0; i < gradeArry.length; i++) {
-                                    stuGrade += gradeArry[i] + "\n";
+                                var pattern = /(账号或密码输入有误哟.)/;
+                                if (pattern.exec(res.text) == null) {
+                                    var stuGrade = "您的成绩：\n";
+                                    var gradeStr = JSON.stringify(res.body.grade);
+                                    gradeStr = gradeStr.slice(1, -1);
+                                    var gradeArry = gradeStr.split(',');
+                                    for (let i = 0; i < gradeArry.length; i++) {
+                                        stuGrade += gradeArry[i] + "\n";
+                                    }
+                                    if (!replied) {
+                                        response.reply({
+                                            type: "text",
+                                            content: stuGrade
+                                        });
+                                        replied = true;
+                                    }
+                                } else {
+                                    if (!replied) {
+                                        response.reply({
+                                            type: "text",
+                                            content: "账号或密码输入有误哟."
+                                        });
+                                        replied = true;
+                                    }
                                 }
-                                if (replied == false) {
-                                    response.reply({
-                                        type: "text",
-                                        content: stuGrade
-                                    });
-                                    replied = true;
-                                }
-
-
-
                             }
                         });
 
@@ -178,25 +216,36 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         .accept('application/json')
                         .end(function(err, res) {
                             if (err || !res.ok) {
-                                console.log('Oh no! error');
+                                response.reply({
+                                    type: "text",
+                                    content: "天哪~服务器出问题啦！"
+                                });
                             } else {
-                                var stuGrade = "您的成绩：\n";
-                                var gradeStr = JSON.stringify(res.body.grade);
-                                gradeStr = gradeStr.slice(1, -1);
-                                var gradeArry = gradeStr.split(',');
-                                for (let i = 0; i < gradeArry.length; i++) {
-                                    stuGrade += gradeArry[i] + "\n";
+                                var pattern = /(账号或密码输入有误哟.)/;
+                                if (pattern.exec(res.text) == null) {
+                                    var stuGrade = "您的成绩：\n";
+                                    var gradeStr = JSON.stringify(res.body.grade);
+                                    gradeStr = gradeStr.slice(1, -1);
+                                    var gradeArry = gradeStr.split(',');
+                                    for (let i = 0; i < gradeArry.length; i++) {
+                                        stuGrade += gradeArry[i] + "\n";
+                                    }
+                                    if (!replied) {
+                                        response.reply({
+                                            type: "text",
+                                            content: stuGrade
+                                        });
+                                        replied = true;
+                                    }
+                                } else {
+                                    if (!replied) {
+                                        response.reply({
+                                            type: "text",
+                                            content: "账号或密码输入有误哟."
+                                        });
+                                        replied = true;
+                                    }
                                 }
-                                if (replied == false) {
-                                    response.reply({
-                                        type: "text",
-                                        content: stuGrade
-                                    });
-                                    replied = true;
-                                }
-
-
-
                             }
                         });
 
@@ -219,7 +268,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             })
         });
     }
-    if (message.Content == "课程表"||message.Content == '课表' || message.Content == "class" || message.Content == "c") {
+    if (message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c") {
         model.findOne({ openid: request.query.openid }, function(err, std) {
             if (std) {
                 //对密码进行bsae64编码
