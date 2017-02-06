@@ -59,6 +59,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     if (pattern.exec(res.text) == null) {
                         var stuGrade = "您的成绩：\n";
                         var gradeStr = JSON.stringify(res.body.grade);
+                        gradeStr = gradeStr.replace(/"/g, "");
                         gradeStr = gradeStr.slice(1, -1);
                         var gradeArry = gradeStr.split(',');
                         for (let i = 0; i < gradeArry.length; i++) {
@@ -104,6 +105,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     if (pattern.exec(res.text) == null) {
                         var stuGrade = "您的成绩：\n";
                         var gradeStr = JSON.stringify(res.body.grade);
+                        gradeStr = gradeStr.replace(/"/g, "");
                         gradeStr = gradeStr.slice(1, -1);
                         var gradeArry = gradeStr.split(',');
                         for (let i = 0; i < gradeArry.length; i++) {
@@ -179,6 +181,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 if (pattern.exec(res.text) == null) {
                                     var stuGrade = "您的成绩：\n";
                                     var gradeStr = JSON.stringify(res.body.grade);
+                                    gradeStr = gradeStr.replace(/"/g, "");
                                     gradeStr = gradeStr.slice(1, -1);
                                     var gradeArry = gradeStr.split(',');
                                     for (let i = 0; i < gradeArry.length; i++) {
@@ -225,6 +228,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 if (pattern.exec(res.text) == null) {
                                     var stuGrade = "您的成绩：\n";
                                     var gradeStr = JSON.stringify(res.body.grade);
+                                    gradeStr = gradeStr.replace(/"/g, "");
                                     gradeStr = gradeStr.slice(1, -1);
                                     var gradeArry = gradeStr.split(',');
                                     for (let i = 0; i < gradeArry.length; i++) {
