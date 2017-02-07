@@ -299,8 +299,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             .set({'Content-Type': 'application/json','user-agent': 'node-superagent/3.4.1',accept:'application/json'})
             .send({
                 "key": "186399c43ec24361a3720b7f41c0e2ec",
-                "info": "gg",
-                "userid": "1313"
+                "info": message.Content,
+                "userid": request.query.openid
             })
             .redirects(0)
             .end(function(err, res) {
