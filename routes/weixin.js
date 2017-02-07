@@ -302,12 +302,13 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 "userid": request.query.openid.toString()
             })
             .set('Content-Type', 'application/json; charset=utf-8')
-            .accept('application/json')
             .redirects(0)
+            .accept('application/json')
             .end(function(err, res) {
                 if (err || !res.ok) {
                     console.log('Oh no! error');
                 } else {
+                    console.log(res);
                     console.log('yay got ' + JSON.stringify(res.body));
                     response.reply({
                         type: "text",
