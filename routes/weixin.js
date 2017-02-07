@@ -298,8 +298,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             .post('http://www.tuling123.com/openapi/api')
             .send({
                 "key": "186399c43ec24361a3720b7f41c0e2ec",
-                "info": message.Content,
-                "userid": request.query.openid.toString()
+                "info": "gg",
+                "userid": '111'
             })
             .set('Content-Type', 'application/json')
             .redirects(0)
