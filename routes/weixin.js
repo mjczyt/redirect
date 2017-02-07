@@ -309,8 +309,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 if (err || !res.ok) {
                     console.log('Oh no! error');
                 } else {
-                    console.log(typeof res.body.text);
-                    console.log( res.body.text);
+                    console.log(res.text);
+
+
 
                     response.reply({
                         type: "text",
