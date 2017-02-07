@@ -335,6 +335,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 })
                             }
                         })
+                        console.log(replyList);
                         response.reply({ replyList });
                     } else {
                         response.reply({
