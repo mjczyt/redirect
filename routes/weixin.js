@@ -178,6 +178,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                         content: "天哪~服务器出问题啦！"
                                     });
                                 } else {
+                                    console.log(JSON.stringify(res));
                                     var pattern = /(wrong)/;
                                     if (pattern.exec(res.text) == null) {
                                         var stuGrade = "您的成绩：\n";
@@ -225,6 +226,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                         content: "天哪~服务器出问题啦！"
                                     });
                                 } else {
+                                    console.log(JSON.stringify(res));
+                                    
                                     var pattern = /(wrong)/;
                                     if (pattern.exec(res.text) == null) {
                                         var stuGrade = "您的成绩：\n";
