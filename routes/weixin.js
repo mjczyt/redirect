@@ -294,10 +294,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             });
         }
     } else {
-        response.reply({
-            type: "text",
-            content: " "
-        })
+        response.reply("");
     }
 
 
