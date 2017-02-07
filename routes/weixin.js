@@ -301,7 +301,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 "info": message.Content,
                 "userid": request.query.openid.toString()
             })
-            .set('Content-Type', 'application/json; charset=utf-8')
+            .set('Content-Type', 'application/json')
             .redirects(0)
             .accept('application/json')
             .end(function(err, res) {
