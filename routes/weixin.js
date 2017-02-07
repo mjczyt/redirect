@@ -319,14 +319,14 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     } else if (resContent.list) {
                         var replyList = [];
                         resContent.list.forEach(function(e, i) {
-                            if (e.article) {
+                            if (e.article&&i<5) {
                                 replyList.push({
                                     title: e.article,
                                     description: "信息来源：" + e.source,
                                     picurl: e.icon,
                                     url: e.detailurl
                                 })
-                            } else {
+                            } else if(i<5){
                                 replyList.push({
                                     title: e.name,
                                     description: e.info,
