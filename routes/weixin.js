@@ -294,14 +294,13 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             });
         }
     } else {
-        console.log(typeof message.Content);
-        console.log(typeof request.query.openid.toString());
+
 
         superagent
             .post('http://www.tuling123.com/openapi/api')
             .send({
                 "key": "186399c43ec24361a3720b7f41c0e2ec",
-                "info": message.Content.toString(),
+                "info": message.Content,
                 "userid": request.query.openid.toString()
             })
             .set('Content-Type', 'application/json; charset=utf-8')
@@ -310,9 +309,12 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 if (err || !res.ok) {
                     console.log('Oh no! error');
                 } else {
+                    console.log(typeof res.body.text);
+                    console.log( res.body.text);
+
                     response.reply({
                         type: "text",
-                        content: res.body.text
+                        content: res.body.text.toString()
                     })
 
                 }
