@@ -297,7 +297,6 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         superagent
             .post('http://www.tuling123.com/openapi/api')
             .set({'Content-Type': 'application/json','user-agent': 'node-superagent/3.4.1',accept:'application/json'})
-            .type('json')
             .send({
                 "key": "186399c43ec24361a3720b7f41c0e2ec",
                 "info": "gg",
@@ -308,14 +307,10 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 if (err || !res.ok) {
                     console.log('Oh no! error');
                 } else {
-                    console.log(JSON.stringify(res));
-                    console.log(res.text);
-                    // console.log('yay got ' + JSON.parse(res.text).text)
-                    // response.reply({
-                    //     type: "text",
-                    //     content: JSON.parse(res.text).text
-                    // })
-
+                    response.reply({
+                        type: "text",
+                        content: JSON.parse(res.text).text
+                    })
                 }
             });
     }
