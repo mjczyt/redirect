@@ -294,12 +294,14 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             });
         }
     } else {
+        console.log(typeof message.Content);
+        console.log(typeof request.query.openid.toString());
 
         superagent
             .post('http://www.tuling123.com/openapi/api')
             .send({
                 "key": "186399c43ec24361a3720b7f41c0e2ec",
-                "info": message.Content,
+                "info": message.Content.toString(),
                 "userid": request.query.openid.toString()
             })
             .set('Content-Type', 'application/json; charset=utf-8')
