@@ -294,8 +294,6 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             });
         }
     } else {
-
-
         superagent
             .post('http://www.tuling123.com/openapi/api')
             .send({
@@ -304,16 +302,17 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 "userid": request.query.openid.toString()
             })
             .set('Content-Type', 'application/json; charset=utf-8')
+            .accept('application/json')
             .redirects(0)
             .end(function(err, res) {
                 if (err || !res.ok) {
                     console.log('Oh no! error');
                 } else {
                     console.log('yay got ' + JSON.stringify(res.body));
-                    // response.reply({
-                    //     type: "text",
-                    //     content: res.body.text.toString()
-                    // })
+                    response.reply({
+                        type: "text",
+                        content: res.body.text
+                    })
 
                 }
             });
