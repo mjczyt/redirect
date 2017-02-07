@@ -302,6 +302,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 "userid": "1313"
             })
             .set('Content-Type', 'application/json')
+            .set('user-agent', 'node-superagent/3.4.1')
             .redirects(0)
             .accept('application/json')
             .end(function(err, res) {
@@ -310,7 +311,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 } else {
                     console.log(JSON.stringify(res));
                     console.log(res.text);
-                     // console.log('yay got ' + JSON.parse(res.text).text)
+                    // console.log('yay got ' + JSON.parse(res.text).text)
                     // response.reply({
                     //     type: "text",
                     //     content: JSON.parse(res.text).text
