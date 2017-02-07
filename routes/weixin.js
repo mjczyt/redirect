@@ -296,7 +296,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     } else {
         superagent
             .post('http://www.tuling123.com/openapi/api')
-            .set({'Content-Type': 'application/json','user-agent': 'node-superagent/3.4.1',accept:'application/json'})
+            .set({ 'Content-Type': 'application/json', 'user-agent': 'node-superagent/3.4.1', accept: 'application/json' })
             .send({
                 "key": "186399c43ec24361a3720b7f41c0e2ec",
                 "info": message.Content,
@@ -307,10 +307,42 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 if (err || !res.ok) {
                     console.log('Oh no! error');
                 } else {
-                    response.reply({
-                        type: "text",
-                        content: JSON.parse(res.text).text
-                    })
+                    var resContent = JSON.parse(res.text);
+                    if (resContent.url) {
+                        response.reply([{
+                            title: resContent.text,
+                            description: '这里是为你找到的信息',
+                            picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                            url: resContent.url
+                        }]);
+
+                    } else if (resContent.list) {
+                        var replyList = [];
+                        resContent.list.forEach(function(e, i) {
+                            if (e.article) {
+                                replyList.push({
+                                    title: e.article,
+                                    description: "信息来源：" + e.source,
+                                    picurl: e.icon,
+                                    url: e.detailurl
+                                })
+                            } else {
+                                replyList.push({
+                                    title: e.name,
+                                    description: e.info,
+                                    picurl: e.icon,
+                                    url: e.detailurl
+                                })
+                            }
+                        })
+                        response.reply({ replyList });
+                    } else {
+                        response.reply({
+                            type: "text",
+                            content: resContent.text
+                        })
+                    }
+
                 }
             });
     }
