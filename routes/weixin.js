@@ -294,7 +294,27 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             });
         }
     } else {
-        response.reply("");
+
+        request
+            .post('http://www.tuling123.com/openapi/api')
+            .send({
+                "key": "186399c43ec24361a3720b7f41c0e2ec",
+                "info": message.Content,
+                "userid": request.query.openid
+            })
+            .set('Content-Type', 'application/json; charset=utf-8')
+            .redirects(0)
+            .end(function(err, res) {
+                if (err || !res.ok) {
+                    console.log('Oh no! error');
+                } else {
+                    response.reply({
+                        type: "text",
+                        content: res.body.text
+                    })
+
+                }
+            });
     }
 
 
