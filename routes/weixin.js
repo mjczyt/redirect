@@ -300,7 +300,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             .send({
                 "key": "186399c43ec24361a3720b7f41c0e2ec",
                 "info": message.Content,
-                "userid": request.query.openid
+                "userid": request.query.openid.toString()
             })
             .set('Content-Type', 'application/json; charset=utf-8')
             .redirects(0)
