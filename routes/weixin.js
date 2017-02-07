@@ -308,8 +308,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 if (err || !res.ok) {
                     console.log('Oh no! error');
                 } else {
+                    console.log(JSON.stringify(res));
                     console.log(res.text);
-                     console.log('yay got ' + JSON.parse(res.text).text)
+                     // console.log('yay got ' + JSON.parse(res.text).text)
                     // response.reply({
                     //     type: "text",
                     //     content: JSON.parse(res.text).text
