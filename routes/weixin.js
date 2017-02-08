@@ -283,7 +283,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                         title: '您的课表 (。・∀・)ノ゛',
                         description: 'come to see this',
                         picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                        url: "cqyou.top:2000/main/" + std.studentId + "/" + s
+                        url: "jwc.cquwukong.com:2000/main/" + std.studentId + "/" + s
                     }]);
                 } else {
                     response.reply({
@@ -319,14 +319,14 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     } else if (resContent.list) {
                         var replyList = [];
                         resContent.list.forEach(function(e, i) {
-                            if (e.article&&i<5) {
+                            if (e.article && i < 5) {
                                 replyList.push({
                                     title: e.article,
                                     description: "信息来源：" + e.source,
                                     picurl: e.icon,
                                     url: e.detailurl
                                 })
-                            } else if(i<5){
+                            } else if (i < 5) {
                                 replyList.push({
                                     title: e.name,
                                     description: e.info,
@@ -335,8 +335,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                                 })
                             }
                         })
-                        console.log(replyList);
-                        response.reply(replyList );
+                        response.reply(replyList);
                     } else {
                         response.reply({
                             type: "text",
