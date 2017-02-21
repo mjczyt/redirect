@@ -300,7 +300,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                     //对密码进行bsae64编码
                     var s = new Buffer(std.studentPassword).toString('base64');
 
-                    ranking(std.studentId, response)
+                    ranking(std.studentId.toString(), response)
 
                 } else {
                     response.reply({
