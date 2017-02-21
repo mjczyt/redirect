@@ -369,6 +369,10 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 }));
 
 function ranking(id, response) {
+
+
+
+
     rankingModel.find({ "studentId": id }, function(err, adventure) {
         console.log(adventure);
         response.reply({

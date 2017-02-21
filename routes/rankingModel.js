@@ -28,4 +28,4 @@ var Ranking = mongoose.Schema({
 });
 
 /* global db */
-module.exports=db.model('ranking3', Ranking);
+module.exports=db.model('ranking', Ranking);
