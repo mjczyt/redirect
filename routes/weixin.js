@@ -3,6 +3,7 @@ var router = express.Router();
 var superagent = require("superagent");
 var wechat = require("wechat");
 var model = require("./weixinModel");
+var rankingModel = require("./rankingModel")
 var crypto = require("crypto");
 
 function sha1(str) {
@@ -293,6 +294,23 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
                 }
             });
         }
+        if (message.Content == "排名") {
+            model.findOne({ openid: request.query.openid }, function(err, std) {
+                if (std) {
+                    //对密码进行bsae64编码
+                    var s = new Buffer(std.studentPassword).toString('base64');
+
+                    ranking(std.studentId, response)
+
+                } else {
+                    response.reply({
+                        type: "text",
+                        content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
+                    })
+                }
+            });
+
+        }
     } else {
         superagent
             .post('http://www.tuling123.com/openapi/api')
@@ -350,6 +368,14 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 
 }));
 
+function ranking(id， response) {
+    rankingModel.find({ "studentId": id }, function(err, adventure) {
+        response.reply({
+            type: "text",
+            content: adventure
+        })
+    })
+}
 
 
 module.exports = router;
