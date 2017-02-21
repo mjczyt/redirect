@@ -401,6 +401,10 @@ function ranking(id, response) {
         }
         var str=JSON.stringify(studentInfo).slice(1,-1);
         var strArray=str.split(",");
+        for(var i=0;i<strArray.length;i++){
+            strArray[i]=strArray[i].replace(/,/g, "");
+            strArray[i]=strArray[i]+"\n"
+        }
         var reply=strArray.toString().replace(/"/g, "");
         console.log(studentInfo);
         response.reply({
