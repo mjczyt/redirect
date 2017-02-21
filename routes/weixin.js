@@ -399,11 +399,13 @@ function ranking(id, response) {
             "班最高绩点": adventure.highestGPAInClass,
             "班最低绩点": adventure.lowestGPAInClass
         }
-        var str=JSON.stringify(studentInfo).replace(/"/g, "");
+        var str=JSON.stringify(studentInfo).slice(1,-1);
+        var strArray=str.split(",");
+        var reply=strArray.toString().replace(/"/g, "");
         console.log(studentInfo);
         response.reply({
             type: "text",
-            content: str
+            content: reply
         })
     })
 }
