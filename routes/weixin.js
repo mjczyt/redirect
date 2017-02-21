@@ -406,7 +406,6 @@ function ranking(id, response) {
         }
         var reply=strArray.toString().replace(/"/g, "");
         reply=reply.replace(/,/g, "");
-        console.log(studentInfo);
         response.reply({
             type: "text",
             content: reply
