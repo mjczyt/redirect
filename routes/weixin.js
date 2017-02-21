@@ -297,6 +297,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         if (message.Content == "排名") {
             model.findOne({ openid: request.query.openid }, function(err, std) {
                 if (std) {
+                    console.log(std);
                     //对密码进行bsae64编码
                     var s = new Buffer(std.studentPassword).toString('base64');
 
@@ -371,8 +372,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 function ranking(id, response) {
 
     rankingModel.find({ "studentId": id }, function(err, adventure) {
-
-        typeof adventure;
+        console.log(adventure);
+        console.log(typeof adventure);
         // adventure=JSON.parse(adventure);
         var studentInfo = {
             "学号": adventure.studentId,
