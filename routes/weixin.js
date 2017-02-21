@@ -372,6 +372,8 @@ function ranking(id, response) {
 
     rankingModel.find({ "studentId": id }, function(err, adventure) {
 
+        typeof adventure;
+        adventure=JSON.parse(adventure);
         var studentInfo = {
             "学号": adventure.studentId,
             "年级": adventure.datesOfAttendance,
