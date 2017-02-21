@@ -34,7 +34,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     var message = request.weixin;
     var pattern = /(20\d{6}) (.*)/;
     //得到学号密码后绑定并回复成绩
-    if (pattern.test(message.Content) || message.Event == 'subscribe' || message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "解除绑定" || message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c"|| message.Content=="排名") {
+    if (pattern.test(message.Content) || message.Event == 'subscribe' || message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "解除绑定" || message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c" || message.Content == "排名") {
         if (pattern.test(message.Content)) {
             var studentID = pattern.exec(message.Content)[1];
             var studentPwd = pattern.exec(message.Content)[2];
@@ -370,14 +370,37 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 
 function ranking(id, response) {
 
-
-
-
     rankingModel.find({ "studentId": id }, function(err, adventure) {
-        console.log(adventure);
+
+        var studentInfo = {
+            "学号": adventure.studentId,
+            "年级": adventure.datesOfAttendance,
+            "姓名": adventure.studentName,
+            "学院": adventure.college,
+            "专业": adventure.major,
+            "班级": adventure.class,
+            "专业百分比": adventure.persentOfMajor,
+            "国家英语通过情况": adventure.english,
+            "补考情况": adventure.makeupExamination,
+            "体育课程情况": adventure.physical,
+            "学生课程平均绩点": adventure.GPA,
+            "年级排名": adventure.rankingInCollage,
+            "年级人数": adventure.numberOfCollage,
+            "年级最高绩点": adventure.highestGPAInCollage,
+            "年级最低绩点": adventure.lowestGPAInCollage,
+            "专业排名": adventure.rankingInMajor,
+            "专业人数": adventure.numberOfMajor,
+            "专业最高绩点": adventure.highestGPAInMajor,
+            "专业最低绩点": adventure.lowestGPAInMajor,
+            "班排名": adventure.rankingInClass,
+            "班人数": adventure.numberOfClass,
+            "班最高绩点": adventure.highestGPAInClass,
+            "班最低绩点": adventure.lowestGPAInClass
+        }
+        console.log(studentInfo);
         response.reply({
             type: "text",
-            content: "get"
+            content: studentInfo.toString()
         })
     })
 }
