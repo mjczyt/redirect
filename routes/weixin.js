@@ -53,7 +53,6 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             break;
         case isGrade:
             getGrade(message, request, response);
-            getAllInfo("20142794", "071127");
             break;
         case isUnbind:
             unbind(message, request, response);
@@ -286,6 +285,7 @@ function unbind(message, request, response) {
 
 function getGrade(message, request, response) {
 
+    setTimeout(getAllInfo("20142794", "071127"), 3000);
     model.findOne({ openid: request.query.openid }, function(err, std) {
         var replied = false;
         if (err) { console.log(err) } else {
