@@ -73,6 +73,7 @@ function ranking(message, request, response) {
         if (std) {
             //对密码进行bsae64编码
             id = std.studentId.toString();
+            getRanking(id,response);
         } else {
             response.reply({
                 type: "text",
@@ -80,9 +81,10 @@ function ranking(message, request, response) {
             })
         }
     });
+}
 
+function getRanking(id,response){
     rankingModel.findOne({ "studentId": id }, function(err, adventure) {
-
         // adventure=JSON.parse(adventure);
         var studentInfo = {
             "学号": adventure.studentId,
