@@ -209,7 +209,7 @@ function bind(pattern, message, request, response) {
         .redirects(0)
         .accept('application/json')
         .end(function(err, res) {
-            if (err || !res.ok) {
+            if（ (err || !res.ok) && replied == false） {
                 response.reply({
                     type: "text",
                     content: "天哪~服务器出问题啦！"
@@ -280,7 +280,7 @@ function grade(message, request, response) {
                     .redirects(0)
                     .accept('application/json')
                     .end(function(err, res) {
-                        if (err || !res.ok) {
+                        if ((err || !res.ok) && replied == false) {
                             response.reply({
                                 type: "text",
                                 content: "天哪~服务器出问题啦！"
