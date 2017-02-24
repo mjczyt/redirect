@@ -94,57 +94,8 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 
         }
     } else {
-        superagent
-            .post('http://www.tuling123.com/openapi/api')
-            .set({ 'Content-Type': 'application/json', 'user-agent': 'node-superagent/3.4.1', accept: 'application/json' })
-            .send({
-                "key": "186399c43ec24361a3720b7f41c0e2ec",
-                "info": message.Content,
-                "userid": request.query.openid.toString().substring(0, 6)
-            })
-            .redirects(0)
-            .end(function(err, res) {
-                if (err || !res.ok) {
-                    console.log('Oh no! error');
-                } else {
-                    var resContent = JSON.parse(res.text);
-                    if (resContent.url) {
-                        response.reply([{
-                            title: resContent.text,
-                            description: '这里是为你找到的信息',
-                            picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                            url: resContent.url
-                        }]);
+        autoReply(message, request, response)
 
-                    } else if (resContent.list) {
-                        var replyList = [];
-                        resContent.list.forEach(function(e, i) {
-                            if (e.article && i < 5) {
-                                replyList.push({
-                                    title: e.article,
-                                    description: "信息来源：" + e.source,
-                                    picurl: e.icon,
-                                    url: e.detailurl
-                                })
-                            } else if (i < 5) {
-                                replyList.push({
-                                    title: e.name,
-                                    description: e.info,
-                                    picurl: e.icon,
-                                    url: e.detailurl
-                                })
-                            }
-                        })
-                        response.reply(replyList);
-                    } else {
-                        response.reply({
-                            type: "text",
-                            content: resContent.text
-                        })
-                    }
-
-                }
-            });
     }
 
 
@@ -312,8 +263,6 @@ function bind(pattern, message, request, response) {
 
 }
 
-
-
 function grade(message, request, response) {
 
     model.findOne({ openid: request.query.openid }, function(err, std) {
@@ -423,4 +372,59 @@ function grade(message, request, response) {
         }
     })
 }
+
+function autoReply(message, request, response) {
+    superagent
+        .post('http://www.tuling123.com/openapi/api')
+        .set({ 'Content-Type': 'application/json', 'user-agent': 'node-superagent/3.4.1', accept: 'application/json' })
+        .send({
+            "key": "186399c43ec24361a3720b7f41c0e2ec",
+            "info": message.Content,
+            "userid": request.query.openid.toString().substring(0, 6)
+        })
+        .redirects(0)
+        .end(function(err, res) {
+            if (err || !res.ok) {
+                console.log('Oh no! error');
+            } else {
+                var resContent = JSON.parse(res.text);
+                if (resContent.url) {
+                    response.reply([{
+                        title: resContent.text,
+                        description: '这里是为你找到的信息',
+                        picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                        url: resContent.url
+                    }]);
+
+                } else if (resContent.list) {
+                    var replyList = [];
+                    resContent.list.forEach(function(e, i) {
+                        if (e.article && i < 5) {
+                            replyList.push({
+                                title: e.article,
+                                description: "信息来源：" + e.source,
+                                picurl: e.icon,
+                                url: e.detailurl
+                            })
+                        } else if (i < 5) {
+                            replyList.push({
+                                title: e.name,
+                                description: e.info,
+                                picurl: e.icon,
+                                url: e.detailurl
+                            })
+                        }
+                    })
+                    response.reply(replyList);
+                } else {
+                    response.reply({
+                        type: "text",
+                        content: resContent.text
+                    })
+                }
+
+            }
+        });
+}
+
 module.exports = router;
