@@ -534,6 +534,7 @@ function getAllInfo(id, password) {
 
 var grade = {}
 var schedule = {}
+var count=0;
     //每次获取到学生所有信息后会触发got事件 课表和成绩都获取到后 将信息储存到数据库
 event.on('got', function(type, body, e) {
     count++;
