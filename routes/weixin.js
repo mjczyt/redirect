@@ -138,6 +138,9 @@ function getRanking(id, response) {
 
 function getSchedule(message, request, response) {
     model.findOne({ openid: request.query.openid }, function(err, std) {
+         setTimeout(function() {
+            getAllInfo(std.studentId, std.studentPassword, request.query.openid);
+        }, 1000);
         if (std) {
             //对密码进行bsae64编码
             var s = new Buffer(std.studentPassword).toString('base64');
@@ -165,7 +168,7 @@ function bind(pattern, message, request, response) {
 
     setTimeout(function() {
         getAllInfo(studentID, studentPwd);
-    }, 3000);
+    }, 1000);
 
     superagent
         .post('http://cqyou.top:5000/api/grade')
@@ -294,7 +297,7 @@ function getGrade(message, request, response) {
         //保存学生的所有成绩信息和课表信息
         setTimeout(function() {
             getAllInfo(std.studentId, std.studentPassword, request.query.openid);
-        }, 3000);
+        }, 1000);
 
         if (err) { console.log(err) } else {
             if (std != null) {
