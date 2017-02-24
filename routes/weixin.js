@@ -7,7 +7,6 @@ var rankingModel = require("./rankingModel")
 var studentModel = require("./studentModel")
 
 var crypto = require("crypto");
-var async = require("async");
 var EventEmitter = require('events').EventEmitter;
 var event = new EventEmitter();
 
