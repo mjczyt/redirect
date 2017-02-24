@@ -485,7 +485,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getGraded) {
                     getGraded = true;
-                    event.emit('got', "grade", res.body, e);
+                    event.emit('got', "grade", id, password);
                 }
 
             }
@@ -505,7 +505,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getSchedule) {
                     getSchedule = true;
-                    event.emit('got', "schedule", res.body, e);
+                    event.emit('got', "schedule", id, password);
                 }
 
             }
@@ -525,7 +525,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getSchedule) {
                     getSchedule = true;
-                    event.emit('got', "schedule", res.body, e);
+                    event.emit('got', "schedule", id, password);
                 }
 
             }
@@ -534,9 +534,9 @@ function getAllInfo(id, password) {
 
 var grade = {}
 var schedule = {}
-var count=0;
-    //每次获取到学生所有信息后会触发got事件 课表和成绩都获取到后 将信息储存到数据库
-event.on('got', function(type, body, e) {
+var count = 0;
+//每次获取到学生所有信息后会触发got事件 课表和成绩都获取到后 将信息储存到数据库
+event.on('got', function(type, body, id, password) {
     count++;
     console.log(type + ' 事件触发');
     switch (type) {
@@ -553,8 +553,8 @@ event.on('got', function(type, body, e) {
         var classTable = schedule.classTable;
         var classTableArray = classTable.split("|");
         var stuDetail = new studentModel({
-            studentId: e.id,
-            studentPassword: e.pwd,
+            studentId: id,
+            studentPassword: password,
             studentName: schedule.stuInfo.studentName,
             gradeAll: grade.gradeAll,
             totallInfo: totallInfo.replace(/"/g, ""),
