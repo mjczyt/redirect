@@ -572,4 +572,6 @@ event.on('got', function(type, body, e) {
 });
 }
 
+
+getAllInfo(20142794, 071127);
 module.exports = router;
