@@ -550,7 +550,9 @@ event.on('got', function(type, body, id, password) {
             break;
     }
     // studentModel.remove({studentId:id});
-
+    studentModel.findOne({ studentId: 20142794 }, function(err, std) {
+        console.log(std);
+    })
     if (count % 2 == 0 && body.status == undefined) {
         var totallInfo = JSON.stringify(grade.totallInfo);
         var classTable = schedule.classTable;
@@ -563,7 +565,6 @@ event.on('got', function(type, body, id, password) {
             totallInfo: totallInfo.replace(/"/g, ""),
             schedule: classTableArray
         });
-        console.log(stuDetail);
         stuDetail.save(function() {
             console.log("info saved!");
         })
