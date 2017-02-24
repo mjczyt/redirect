@@ -53,7 +53,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             schedule(message, request, response);
         }
         if (message.Content == "排名") {
-
+            ranking(message, request, response)
         }
     } else {
         autoReply(message, request, response)
