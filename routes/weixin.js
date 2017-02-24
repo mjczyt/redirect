@@ -61,7 +61,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 }));
 
 
-function subscribe(message, request, response); {
+function subscribe(message, request, response) {
     response.reply({
         type: "text",
         content: '欢迎关注😊\n 回复“成绩”、“grade”、“g"查看个人成绩。\n 回复“课表”、“class"、”c”查看本周课表(本学期已结束，默认回复下学期第一周课表)\n 若第一次密码输入错误回复“解除绑定”可重新绑定教务网账号。'
