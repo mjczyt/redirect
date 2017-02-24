@@ -558,7 +558,7 @@ event.on('got', function(type, body, id, password) {
         var totallInfo = JSON.stringify(grade.totallInfo);
         var classTable = schedule.classTable;
         var classTableArray = classTable.split("|");
-        var stuDetail = new studentModel.findoneand({
+        var stuDetail = new studentModel({
             studentId: id,
             studentPassword: password,
             studentName: schedule.stuInfo.studentName,
