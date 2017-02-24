@@ -53,20 +53,6 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             schedule(message, request, response);
         }
         if (message.Content == "排名") {
-            model.findOne({ openid: request.query.openid }, function(err, std) {
-                if (std) {
-                    //对密码进行bsae64编码
-                    var s = new Buffer(std.studentPassword).toString('base64');
-
-                    ranking(std.studentId.toString(), response)
-
-                } else {
-                    response.reply({
-                        type: "text",
-                        content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
-                    })
-                }
-            });
 
         }
     } else {
@@ -80,7 +66,20 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 
 
 
-function ranking(id, response) {
+function ranking(message, request, response) {
+
+    var id = null;
+    model.findOne({ openid: request.query.openid }, function(err, std) {
+        if (std) {
+            //对密码进行bsae64编码
+            id = std.studentId.toString();
+        } else {
+            response.reply({
+                type: "text",
+                content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
+            })
+        }
+    });
 
     rankingModel.findOne({ "studentId": id }, function(err, adventure) {
 
