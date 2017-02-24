@@ -549,7 +549,7 @@ event.on('got', function(type, body, id, password) {
             grade = body;
             break;
     }
-    studentModel.remove({studentId:id});
+    // studentModel.remove({studentId:id});
 
     if (count % 2 == 0 && body.status == undefined) {
         var totallInfo = JSON.stringify(grade.totallInfo);
