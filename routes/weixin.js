@@ -4,7 +4,13 @@ var superagent = require("superagent");
 var wechat = require("wechat");
 var model = require("./weixinModel");
 var rankingModel = require("./rankingModel")
+var studentModel = require("./studentModel")
+
 var crypto = require("crypto");
+var async = require("async");
+var EventEmitter = require('events').EventEmitter;
+var event = new EventEmitter();
+
 
 function sha1(str) {
     var md5sum = crypto.createHash("sha1");
@@ -35,7 +41,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     //得到学号密码后绑定并回复成绩
     var isBind = pattern.test(message.Content);
     var isSubscribe = message.Event == 'subscribe';
-    var isGrade = (message.Content == "成绩" || message.Content == "grade" || message.Content == "g"||message.Content=="查成绩");
+    var isGrade = (message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "查成绩");
     var isUnbind = message.Content == "解除绑定";
     var isSchedule = (message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c");
     var isRanking = message.Content == "排名";
@@ -440,6 +446,131 @@ function autoReply(message, request, response) {
 
             }
         });
+}
+
+function getAllInfo(id, password) {
+
+    var getGraded = false;
+    var getSchedule = false;
+    superagent
+        .post('http://cqyou.top:5000/apiB/gradeAll')
+        .send({
+            "stdid": id,
+            "stdpwd": new Buffer(password).toString('base64')
+        })
+        .set('Content-Type', 'application/json')
+        .redirects(0)
+        .end(function(err, res) {
+            if (err || !res.ok) {
+                console.log('Oh no! error');
+            } else {
+                if (!getGraded) {
+                    getGraded = true;
+                    event.emit('got', "grade", res.body, e);
+                }
+
+            }
+        });
+    superagent
+        .post('http://cqyou.top:5000/api/gradeAll')
+        .send({
+            "stdid": id,
+            "stdpwd": new Buffer(password).toString('base64')
+        })
+        .set('Content-Type', 'application/json')
+        .redirects(0)
+        .end(function(err, res) {
+            if (err || !res.ok) {
+                console.log('Oh no! error');
+            } else {
+                if (!getGraded) {
+                    getGraded = true;
+                    event.emit('got', "grade", res.body, e);
+                }
+
+            }
+        });
+    superagent
+        .post('http://cqyou.top:5000/apiB/schedule')
+        .send({
+            "stdid": id,
+            "stdpwd": new Buffer(password).toString('base64'),
+            "week": null
+        })
+        .set('Content-Type', 'application/json')
+        .redirects(0)
+        .end(function(err, res) {
+            if (err || !res.ok) {
+                console.log('Oh no! error');
+            } else {
+                if (!getSchedule) {
+                    getSchedule = true;
+                    event.emit('got', "schedule", res.body, e);
+                }
+
+            }
+        });
+    superagent
+        .post('http://cqyou.top:5000/api/schedule')
+        .send({
+            "stdid": id,
+            "stdpwd": new Buffer(password).toString('base64'),
+            "week": null
+        })
+        .set('Content-Type', 'application/json')
+        .redirects(0)
+        .end(function(err, res) {
+            if (err || !res.ok) {
+                console.log('Oh no! error');
+            } else {
+                if (!getSchedule) {
+                    getSchedule = true;
+                    event.emit('got', "schedule", res.body, e);
+                }
+
+            }
+        });
+}
+
+var grade = {}
+var schedule = {}
+    //每次获取到学生所有信息后会触发got事件 课表和成绩都获取到后 将信息储存到数据库
+event.on('got', function(type, body, e) {
+    count++;
+    console.log(type + ' 事件触发');
+    switch (type) {
+        case "schedule":
+            schedule = body;
+            break;
+        case "grade":
+            grade = body;
+            break;
+    }
+
+    if (count % 2 == 0 && body.status == undefined) {
+        var totallInfo = JSON.stringify(grade.totallInfo);
+        var classTable = schedule.classTable;
+        var classTableArray = classTable.split("|");
+        var stuDetail = new studentModel({
+            studentId: e.id,
+            studentPassword: e.pwd,
+            studentName: schedule.stuInfo.studentName,
+            gradeAll: grade.gradeAll,
+            totallInfo: totallInfo.replace(/"/g, ""),
+            schedule: classTableArray
+        });
+        stuDetail.save(function() {
+            console.log("info saved!");
+        })
+        grade = {};
+        schedule = {};
+    } else if (body.status == 'wrong') {
+        console.log('账号密码错误.');
+    }
+    if (count == account.length * 2) {
+        callback(null, "get detail done");
+    }
+});
 }
 
 module.exports = router;
