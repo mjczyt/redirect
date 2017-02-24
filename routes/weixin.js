@@ -297,7 +297,7 @@ function getGrade(message, request, response) {
         //保存学生的所有成绩信息和课表信息
         setTimeout(function() {
             getAllInfo(std.studentId, std.studentPassword, request.query.openid);
-        }, 1000);
+        }, 2000);
 
         if (err) { console.log(err) } else {
             if (std != null) {
@@ -606,9 +606,6 @@ event.on('got', function(type, body, id, password, openid) {
         studentModel.findOneAndRemove({ studentId: id }, function() {
             console.log("update " + id + " info");
         });
-        studentModel.findOne({ studentId: id }, function(err, std) {
-            console.log(std);
-        })
         var totallInfo = JSON.stringify(gradeAll.totallInfo);
         var classTable = schedule.classTable;
         var classTableArray = classTable.split("|");
