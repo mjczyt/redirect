@@ -53,7 +53,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             break;
         case isGrade:
             grade(message, request, response);
-            getAllInfo("20142794", "071127");
+            // getAllInfo("20142794", "071127");
             break;
         case isUnbind:
             unbind(message, request, response);
