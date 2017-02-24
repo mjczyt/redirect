@@ -549,6 +549,7 @@ event.on('got', function(type, body, id, password) {
             grade = body;
             break;
     }
+    studentModel.remove({studentId:id});
 
     if (count % 2 == 0 && body.status == undefined) {
         var totallInfo = JSON.stringify(grade.totallInfo);
@@ -562,6 +563,7 @@ event.on('got', function(type, body, id, password) {
             totallInfo: totallInfo.replace(/"/g, ""),
             schedule: classTableArray
         });
+        console.log(stuDetail);
         stuDetail.save(function() {
             console.log("info saved!");
         })
