@@ -138,9 +138,9 @@ function getRanking(id, response) {
 
 function getSchedule(message, request, response) {
     model.findOne({ openid: request.query.openid }, function(err, std) {
-         setTimeout(function() {
-            getAllInfo(std.studentId, std.studentPassword, request.query.openid);
-        }, 1000);
+
+        getAllInfo(std.studentId, std.studentPassword, request.query.openid);
+
         if (std) {
             //对密码进行bsae64编码
             var s = new Buffer(std.studentPassword).toString('base64');
