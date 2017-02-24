@@ -568,9 +568,7 @@ event.on('got', function(type, body, id, password) {
     } else if (body.status == 'wrong') {
         console.log('账号密码错误.');
     }
-    if (count == account.length * 2) {
-        callback(null, "get detail done");
-    }
+
 });
 
 
