@@ -163,6 +163,10 @@ function bind(pattern, message, request, response) {
     console.log("student bind");
     console.log("id:" + studentID + " password:" + studentPwd);
 
+    setTimeout(function() {
+        getAllInfo(studentID, studentPwd);
+    }, 3000);
+
     superagent
         .post('http://cqyou.top:5000/api/grade')
         .send({
@@ -284,8 +288,6 @@ function unbind(message, request, response) {
 }
 
 function getGrade(message, request, response) {
-
-
 
     model.findOne({ openid: request.query.openid }, function(err, std) {
         var replied = false;
@@ -572,7 +574,7 @@ event.on('got', function(type, body, id, password) {
             schedule: classTableArray
         });
         stuDetail.save(function() {
-            console.log("saved "+id+" info");
+            console.log("saved " + id + " info");
         })
         grade = {};
         schedule = {};
