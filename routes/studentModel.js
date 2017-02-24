@@ -4,6 +4,7 @@ var mongoose=require("mongoose");
 var studentDetail = mongoose.Schema({
     studentId: String,
     studentPassword: String,
+    openid:String,
     studentName: String,
     gradeAll: Array,
     totallInfo: String,
