@@ -59,7 +59,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             unbind(message, request, response);
             break;
         case isSchedule:
-            schedule(message, request, response);
+            getSchedule(message, request, response);
             break;
         case isRanking:
             ranking(message, request, response);
@@ -137,7 +137,7 @@ function getRanking(id, response) {
     })
 }
 
-function schedule(message, request, response) {
+function getSchedule(message, request, response) {
     model.findOne({ openid: request.query.openid }, function(err, std) {
         if (std) {
             //对密码进行bsae64编码
