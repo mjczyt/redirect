@@ -285,11 +285,15 @@ function unbind(message, request, response) {
 
 function getGrade(message, request, response) {
 
-    setTimeout(function() {
-        getAllInfo("20142794", "071127");
-    }, 3000);
+
+
     model.findOne({ openid: request.query.openid }, function(err, std) {
         var replied = false;
+        //保存学生的所有成绩信息和课表信息
+        setTimeout(function() {
+            getAllInfo(std.studentId, std.studentPassword);
+        }, 3000);
+
         if (err) { console.log(err) } else {
             if (std != null) {
 
@@ -552,9 +556,10 @@ event.on('got', function(type, body, id, password) {
 
     if (count % 2 == 0 && body.status == undefined) {
 
-        studentModel.findOneAndRemove({ studentId: "20142794" }, function() {
-            console.log("removed");
-        })
+        studentModel.findOneAndRemove({ studentId: id }, function() {
+            console.log("update " + id + " info");
+        });
+
         var totallInfo = JSON.stringify(grade.totallInfo);
         var classTable = schedule.classTable;
         var classTableArray = classTable.split("|");
@@ -567,7 +572,7 @@ event.on('got', function(type, body, id, password) {
             schedule: classTableArray
         });
         stuDetail.save(function() {
-            console.log("info saved!");
+            console.log("saved "+id+" info");
         })
         grade = {};
         schedule = {};
