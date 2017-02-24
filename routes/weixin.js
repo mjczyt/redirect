@@ -47,38 +47,14 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             grade(message, request, response);
         }
         if (message.Content == "解除绑定") {
-            model.remove({ openid: request.query.openid }, function() {
-                console.log("delect data of " + request.query.openid);
-                response.reply({
-                    type: "text",
-                    content: "您已经解除绑定 重新回复学号 密码绑定教务网账号。"
-                })
-            });
+            unbind(message, request, response);
         }
         if (message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c") {
-            model.findOne({ openid: request.query.openid }, function(err, std) {
-                if (std) {
-                    //对密码进行bsae64编码
-                    var s = new Buffer(std.studentPassword).toString('base64');
-
-                    response.reply([{
-                        title: '您的课表 (。・∀・)ノ゛',
-                        description: 'come to see this',
-                        picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                        url: "ophoto4.me:2000/main/" + std.studentId + "/" + s
-                    }]);
-                } else {
-                    response.reply({
-                        type: "text",
-                        content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
-                    })
-                }
-            });
+            schedule(message, request, response);
         }
         if (message.Content == "排名") {
             model.findOne({ openid: request.query.openid }, function(err, std) {
                 if (std) {
-
                     //对密码进行bsae64编码
                     var s = new Buffer(std.studentPassword).toString('base64');
 
@@ -100,6 +76,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 
 
 }));
+
+
+
 
 function ranking(id, response) {
 
@@ -145,6 +124,25 @@ function ranking(id, response) {
     })
 }
 
+function schedule(message, request, response) {
+    model.findOne({ openid: request.query.openid }, function(err, std) {
+        if (std) {
+            //对密码进行bsae64编码
+            var s = new Buffer(std.studentPassword).toString('base64');
+            response.reply([{
+                title: '您的课表 (。・∀・)ノ゛',
+                description: 'come to see this',
+                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                url: "ophoto4.me:2000/main/" + request.query.openid
+            }]);
+        } else {
+            response.reply({
+                type: "text",
+                content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
+            })
+        }
+    });
+}
 
 function bind(pattern, message, request, response) {
     var replied = false;
@@ -209,7 +207,7 @@ function bind(pattern, message, request, response) {
         .redirects(0)
         .accept('application/json')
         .end(function(err, res) {
-            if((err || !res.ok) && replied == false) {
+            if ((err || !res.ok) && replied == false) {
                 response.reply({
                     type: "text",
                     content: "天哪~服务器出问题啦！"
@@ -261,6 +259,16 @@ function bind(pattern, message, request, response) {
         }
     })
 
+}
+
+function unbind(message, request, response) {
+    model.remove({ openid: request.query.openid }, function() {
+        console.log("delect data of " + request.query.openid);
+        response.reply({
+            type: "text",
+            content: "您已经解除绑定 重新回复学号 密码绑定教务网账号。"
+        })
+    });
 }
 
 function grade(message, request, response) {
