@@ -559,7 +559,7 @@ event.on('got', function(type, body, id, password, openid) {
             break;
     }
 
-    if (count % 2 == 0 && body.status == undefined) {
+    if (count % 2 == 0 && body.status == undefined && grade != null && schedule != null) {
 
         studentModel.findOneAndRemove({ studentId: id }, function() {
             console.log("update " + id + " info");
