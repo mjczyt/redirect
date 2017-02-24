@@ -30,13 +30,12 @@ router.get('/', function(req, res, next) {
 //微信传来学号和密码时返回学生成绩
 router.post('/', wechat('CQYOU', function(request, response, next) {
     // message is located in req.weixin
-    var replied = false;
     var message = request.weixin;
     var pattern = /(20\d{6}) (.*)/;
     //得到学号密码后绑定并回复成绩
     if (pattern.test(message.Content) || message.Event == 'subscribe' || message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "解除绑定" || message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c" || message.Content == "排名") {
         if (pattern.test(message.Content)) {
-            bind(pattern,message, request, response);
+            bind(pattern, message, request, response);
         }
         if (message.Event == 'subscribe') {
             response.reply({
@@ -45,113 +44,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             })
         }
         if (message.Content == "成绩" || message.Content == "grade" || message.Content == "g") {
-            model.findOne({ openid: request.query.openid }, function(err, std) {
-                var replied = false;
-
-                if (err) { console.log(err) } else {
-                    if (std != null) {
-
-                        superagent
-                            .post('http://cqyou.top:5000/api/grade')
-                            .send({
-                                "stdid": std.studentId,
-                                "stdpwd": new Buffer(std.studentPassword).toString('base64')
-                            })
-                            .set('Content-Type', 'application/json')
-                            .redirects(0)
-                            .accept('application/json')
-                            .end(function(err, res) {
-                                if (err || !res.ok) {
-                                    response.reply({
-                                        type: "text",
-                                        content: "天哪~服务器出问题啦！"
-                                    });
-                                } else {
-                                    var pattern = /(wrong)/;
-                                    if (pattern.exec(res.text) == null) {
-                                        var stuGrade = "您的成绩：\n";
-                                        var gradeStr = JSON.stringify(res.body.grade);
-                                        gradeStr = gradeStr.replace(/"/g, "");
-                                        gradeStr = gradeStr.slice(1, -1);
-                                        var gradeArry = gradeStr.split(',');
-                                        for (let i = 0; i < gradeArry.length; i++) {
-                                            stuGrade += gradeArry[i] + "\n";
-                                        }
-                                        if (!replied) {
-                                            response.reply({
-                                                type: "text",
-                                                content: stuGrade
-                                            });
-                                            replied = true;
-                                        }
-                                    } else {
-                                        if (!replied) {
-                                            response.reply({
-                                                type: "text",
-                                                content: "账号或密码输入有误哟."
-                                            });
-                                            replied = true;
-                                        }
-                                    }
-                                }
-                            });
-
-
-
-                        superagent
-                            .post('http://cqyou.top:5000/apiB/grade')
-                            .send({
-                                "stdid": std.studentId,
-                                "stdpwd": new Buffer(std.studentPassword).toString('base64')
-                            })
-                            .set('Content-Type', 'application/json')
-                            .redirects(0)
-                            .accept('application/json')
-                            .end(function(err, res) {
-                                if (err || !res.ok) {
-                                    response.reply({
-                                        type: "text",
-                                        content: "天哪~服务器出问题啦！"
-                                    });
-                                } else {
-                                    var pattern = /(wrong)/;
-                                    if (pattern.exec(res.text) == null) {
-                                        var stuGrade = "您的成绩：\n";
-                                        var gradeStr = JSON.stringify(res.body.grade);
-                                        gradeStr = gradeStr.replace(/"/g, "");
-                                        gradeStr = gradeStr.slice(1, -1);
-                                        var gradeArry = gradeStr.split(',');
-                                        for (let i = 0; i < gradeArry.length; i++) {
-                                            stuGrade += gradeArry[i] + "\n";
-                                        }
-                                        if (!replied) {
-                                            response.reply({
-                                                type: "text",
-                                                content: stuGrade
-                                            });
-                                            replied = true;
-                                        }
-                                    } else {
-                                        if (!replied) {
-                                            response.reply({
-                                                type: "text",
-                                                content: "账号或密码输入有误哟."
-                                            });
-                                            replied = true;
-                                        }
-                                    }
-                                }
-                            });
-
-
-                    } else {
-                        response.reply({
-                            type: "text",
-                            content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233 （中间记得空格间隔）"
-                        })
-                    }
-                }
-            })
+            grade(message, request, response);
         }
         if (message.Content == "解除绑定") {
             model.remove({ openid: request.query.openid }, function() {
@@ -302,8 +195,8 @@ function ranking(id, response) {
 }
 
 
-function bind(pattern,message, request, response) {
-    var replied=false;
+function bind(pattern, message, request, response) {
+    var replied = false;
     var studentID = pattern.exec(message.Content)[1];
     var studentPwd = pattern.exec(message.Content)[2];
     console.log("student bind");
@@ -419,4 +312,115 @@ function bind(pattern,message, request, response) {
 
 }
 
+
+
+function grade(message, request, response) {
+
+    model.findOne({ openid: request.query.openid }, function(err, std) {
+        var replied = false;
+        if (err) { console.log(err) } else {
+            if (std != null) {
+
+                superagent
+                    .post('http://cqyou.top:5000/api/grade')
+                    .send({
+                        "stdid": std.studentId,
+                        "stdpwd": new Buffer(std.studentPassword).toString('base64')
+                    })
+                    .set('Content-Type', 'application/json')
+                    .redirects(0)
+                    .accept('application/json')
+                    .end(function(err, res) {
+                        if (err || !res.ok) {
+                            response.reply({
+                                type: "text",
+                                content: "天哪~服务器出问题啦！"
+                            });
+                        } else {
+                            var pattern = /(wrong)/;
+                            if (pattern.exec(res.text) == null) {
+                                var stuGrade = "您的成绩：\n";
+                                var gradeStr = JSON.stringify(res.body.grade);
+                                gradeStr = gradeStr.replace(/"/g, "");
+                                gradeStr = gradeStr.slice(1, -1);
+                                var gradeArry = gradeStr.split(',');
+                                for (let i = 0; i < gradeArry.length; i++) {
+                                    stuGrade += gradeArry[i] + "\n";
+                                }
+                                if (!replied) {
+                                    response.reply({
+                                        type: "text",
+                                        content: stuGrade
+                                    });
+                                    replied = true;
+                                }
+                            } else {
+                                if (!replied) {
+                                    response.reply({
+                                        type: "text",
+                                        content: "账号或密码输入有误哟."
+                                    });
+                                    replied = true;
+                                }
+                            }
+                        }
+                    });
+
+
+
+                superagent
+                    .post('http://cqyou.top:5000/apiB/grade')
+                    .send({
+                        "stdid": std.studentId,
+                        "stdpwd": new Buffer(std.studentPassword).toString('base64')
+                    })
+                    .set('Content-Type', 'application/json')
+                    .redirects(0)
+                    .accept('application/json')
+                    .end(function(err, res) {
+                        if (err || !res.ok) {
+                            response.reply({
+                                type: "text",
+                                content: "天哪~服务器出问题啦！"
+                            });
+                        } else {
+                            var pattern = /(wrong)/;
+                            if (pattern.exec(res.text) == null) {
+                                var stuGrade = "您的成绩：\n";
+                                var gradeStr = JSON.stringify(res.body.grade);
+                                gradeStr = gradeStr.replace(/"/g, "");
+                                gradeStr = gradeStr.slice(1, -1);
+                                var gradeArry = gradeStr.split(',');
+                                for (let i = 0; i < gradeArry.length; i++) {
+                                    stuGrade += gradeArry[i] + "\n";
+                                }
+                                if (!replied) {
+                                    response.reply({
+                                        type: "text",
+                                        content: stuGrade
+                                    });
+                                    replied = true;
+                                }
+                            } else {
+                                if (!replied) {
+                                    response.reply({
+                                        type: "text",
+                                        content: "账号或密码输入有误哟."
+                                    });
+                                    replied = true;
+                                }
+                            }
+                        }
+                    });
+
+
+            } else {
+                response.reply({
+                    type: "text",
+                    content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233 （中间记得空格间隔）"
+                })
+            }
+        }
+    })
+}
 module.exports = router;
