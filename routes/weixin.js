@@ -466,7 +466,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getGraded) {
                     getGraded = true;
-                    event.emit('got', "grade", res.body, e);
+                    event.emit('got', "grade", id, password);
                 }
 
             }
