@@ -36,7 +36,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     //得到学号密码后绑定并回复成绩
     if (pattern.test(message.Content) || message.Event == 'subscribe' || message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "解除绑定" || message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c" || message.Content == "排名") {
         if (pattern.test(message.Content)) {
-            bind(message, request, response);
+            bind(pattern,message, request, response);
         }
         if (message.Event == 'subscribe') {
             response.reply({
@@ -302,7 +302,8 @@ function ranking(id, response) {
 }
 
 
-function bind(message, request, response) {
+function bind(pattern,message, request, response) {
+    var replied=false;
     var studentID = pattern.exec(message.Content)[1];
     var studentPwd = pattern.exec(message.Content)[2];
     console.log("student bind");
