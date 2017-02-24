@@ -460,9 +460,47 @@ function autoReply(message, request, response) {
 }
 
 function getAllInfo(id, password, openid) {
-
-    var getGraded = false;
+    var getGrade = false;
+    var getGradedAll = false;
     var getSchedule = false;
+    superagent
+        .post('http://cqyou.top:5000/api/grade')
+        .send({
+            "stdid": id,
+            "stdpwd": new Buffer(password).toString('base64')
+        })
+        .set('Content-Type', 'application/json')
+        .redirects(0)
+        .end(function(err, res) {
+            if (err || !res.ok) {
+                console.log('Oh no! error');
+            } else {
+                if (!getGrade) {
+                    getGrade = true;
+                    event.emit('got', "grade", res.body, id, password, openid);
+                }
+
+            }
+        });
+    superagent
+        .post('http://cqyou.top:5000/apiB/grade')
+        .send({
+            "stdid": id,
+            "stdpwd": new Buffer(password).toString('base64')
+        })
+        .set('Content-Type', 'application/json')
+        .redirects(0)
+        .end(function(err, res) {
+            if (err || !res.ok) {
+                console.log('Oh no! error');
+            } else {
+                if (!getGrade) {
+                    getGrade = true;
+                    event.emit('got', "grade", res.body, id, password, openid);
+                }
+
+            }
+        });
     superagent
         .post('http://cqyou.top:5000/apiB/gradeAll')
         .send({
@@ -475,9 +513,9 @@ function getAllInfo(id, password, openid) {
             if (err || !res.ok) {
                 console.log('Oh no! error');
             } else {
-                if (!getGraded) {
-                    getGraded = true;
-                    event.emit('got', "grade", res.body, id, password, openid);
+                if (!getGradedAll) {
+                    getGradedAll = true;
+                    event.emit('got', "gradeAll", res.body, id, password, openid);
                 }
 
             }
@@ -494,9 +532,9 @@ function getAllInfo(id, password, openid) {
             if (err || !res.ok) {
                 console.log('Oh no! error');
             } else {
-                if (!getGraded) {
-                    getGraded = true;
-                    event.emit('got', "grade", res.body, id, password, openid);
+                if (!getGradedAll) {
+                    getGradedAll = true;
+                    event.emit('got', "gradeAll", res.body, id, password, openid);
                 }
 
             }
@@ -543,8 +581,9 @@ function getAllInfo(id, password, openid) {
         });
 }
 
-var grade = {}
-var schedule = {}
+var grade = {};
+var gradeAll = {};
+var schedule = {};
 var count = 0;
 //每次获取到学生所有信息后会触发got事件 课表和成绩都获取到后 将信息储存到数据库
 event.on('got', function(type, body, id, password, openid) {
@@ -554,18 +593,23 @@ event.on('got', function(type, body, id, password, openid) {
         case "schedule":
             schedule = body;
             break;
+        case "gradeAll":
+            gradeAll = body;
+            break;
         case "grade":
             grade = body;
             break;
     }
 
-    if (count % 2 == 0 && body.status == undefined && grade != null && schedule != null) {
+    if (count % 3 == 0 && body.status == undefined && gradeAll != null && schedule != null && grade != null) {
 
         studentModel.findOneAndRemove({ studentId: id }, function() {
             console.log("update " + id + " info");
         });
-
-        var totallInfo = JSON.stringify(grade.totallInfo);
+        studentModel.findOne({ studentId: id }, function(err, std) {
+            console.log(std);
+        })
+        var totallInfo = JSON.stringify(gradeAll.totallInfo);
         var classTable = schedule.classTable;
         var classTableArray = classTable.split("|");
         var stuDetail = new studentModel({
@@ -573,14 +617,15 @@ event.on('got', function(type, body, id, password, openid) {
             studentPassword: password,
             openid: openid,
             studentName: schedule.stuInfo.studentName,
-            gradeAll: grade.gradeAll,
+            gradeAll: gradeAll.gradeAll,
+            grade: grade.grade,
             totallInfo: totallInfo.replace(/"/g, ""),
             schedule: classTableArray
         });
         stuDetail.save(function() {
             console.log("saved " + id + " info");
         })
-        grade = {};
+        gradeAll = {};
         schedule = {};
     } else if (body.status == 'wrong') {
         console.log('账号密码错误.');

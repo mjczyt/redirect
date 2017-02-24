@@ -7,6 +7,7 @@ var studentDetail = mongoose.Schema({
     openid:String,
     studentName: String,
     gradeAll: Array,
+    grade:Array,
     totallInfo: String,
     schedule: Array
 });
