@@ -466,7 +466,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getGraded) {
                     getGraded = true;
-                    event.emit('got', "grade", id, password);
+                    event.emit('got', "grade", res.body, id, password);
                 }
 
             }
@@ -485,7 +485,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getGraded) {
                     getGraded = true;
-                    event.emit('got', "grade", id, password);
+                    event.emit('got', "grade", res.body, id, password);
                 }
 
             }
@@ -505,7 +505,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getSchedule) {
                     getSchedule = true;
-                    event.emit('got', "schedule", id, password);
+                    event.emit('got', "schedule", res.body, id, password);
                 }
 
             }
@@ -525,7 +525,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getSchedule) {
                     getSchedule = true;
-                    event.emit('got', "schedule", id, password);
+                    event.emit('got', "schedule", res.body, id, password);
                 }
 
             }
