@@ -549,15 +549,16 @@ event.on('got', function(type, body, id, password) {
             grade = body;
             break;
     }
-    // studentModel.remove({studentId:id});
-    studentModel.findOne({ studentId: 20142794 }, function(err, std) {
-        console.log(std);
-    })
+
     if (count % 2 == 0 && body.status == undefined) {
+
+        studentModel.findOneAndRemove({ studentId: "20142794" }, function() {
+            console.log("removed");
+        })
         var totallInfo = JSON.stringify(grade.totallInfo);
         var classTable = schedule.classTable;
         var classTableArray = classTable.split("|");
-        var stuDetail = new studentModel({
+        var stuDetail = new studentModel.findoneand({
             studentId: id,
             studentPassword: password,
             studentName: schedule.stuInfo.studentName,
