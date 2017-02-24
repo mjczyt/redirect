@@ -35,7 +35,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     //得到学号密码后绑定并回复成绩
     var isBind = pattern.test(message.Content);
     var isSubscribe = message.Event == 'subscribe';
-    var isGrade = (message.Content == "成绩" || message.Content == "grade" || message.Content == "g");
+    var isGrade = (message.Content == "成绩" || message.Content == "grade" || message.Content == "g"||message.Content=="查成绩");
     var isUnbind = message.Content == "解除绑定";
     var isSchedule = (message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c");
     var isRanking = message.Content == "排名";
@@ -61,33 +61,6 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
         default:
             autoReply(message, request, response);
     }
-
-
-
-    // if (pattern.test(message.Content) || message.Event == 'subscribe' || message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "解除绑定" || message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c" || message.Content == "排名") {
-   //     if (pattern.test(message.Content)) {
-
-   //     }
-   //     if (message.Event == 'subscribe') {
-   //         subscribe(message, request, response);
-   //     }
-   //     if (message.Content == "成绩" || message.Content == "grade" || message.Content == "g") {
-   //         grade(message, request, response);
-   //     }
-   //     if (message.Content == "解除绑定") {
-   //         unbind(message, request, response);
-   //     }
-   //     if (message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c") {
-   //         schedule(message, request, response);
-   //     }
-   //     if (message.Content == "排名") {
-   //         ranking(message, request, response);
-   //     }
-   // } else {
-   //     autoReply(message, request, response);
-   // }
-
-
 
 }));
 
