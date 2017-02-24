@@ -10,4 +10,4 @@ var studentDetail = mongoose.Schema({
     schedule: Array
 });
 /* global db */
-module.exports=db.model("student",weixinSchema);
+module.exports=db.model("student",studentDetail);
