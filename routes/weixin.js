@@ -285,7 +285,9 @@ function unbind(message, request, response) {
 
 function getGrade(message, request, response) {
 
-    setTimeout(getAllInfo("20142794", "071127"), 3000);
+    setTimeout(function() {
+        getAllInfo("20142794", "071127");
+    }, 3000);
     model.findOne({ openid: request.query.openid }, function(err, std) {
         var replied = false;
         if (err) { console.log(err) } else {
