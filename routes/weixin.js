@@ -38,10 +38,7 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
             bind(pattern, message, request, response);
         }
         if (message.Event == 'subscribe') {
-            response.reply({
-                type: "text",
-                content: '欢迎关注😊\n 回复“成绩”、“grade”、“g"查看个人成绩。\n 回复“课表”、“class"、”c”查看本周课表(本学期已结束，默认回复下学期第一周课表)\n 若第一次密码输入错误回复“解除绑定”可重新绑定教务网账号。'
-            })
+            subscribe(message, request, response);
         }
         if (message.Content == "成绩" || message.Content == "grade" || message.Content == "g") {
             grade(message, request, response);
@@ -64,7 +61,12 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
 }));
 
 
-
+function subscribe(message, request, response); {
+    response.reply({
+        type: "text",
+        content: '欢迎关注😊\n 回复“成绩”、“grade”、“g"查看个人成绩。\n 回复“课表”、“class"、”c”查看本周课表(本学期已结束，默认回复下学期第一周课表)\n 若第一次密码输入错误回复“解除绑定”可重新绑定教务网账号。'
+    })
+}
 
 function ranking(message, request, response) {
 
@@ -73,7 +75,7 @@ function ranking(message, request, response) {
         if (std) {
             //对密码进行bsae64编码
             id = std.studentId.toString();
-            getRanking(id,response);
+            getRanking(id, response);
         } else {
             response.reply({
                 type: "text",
@@ -83,7 +85,7 @@ function ranking(message, request, response) {
     });
 }
 
-function getRanking(id,response){
+function getRanking(id, response) {
     rankingModel.findOne({ "studentId": id }, function(err, adventure) {
         // adventure=JSON.parse(adventure);
         var studentInfo = {
