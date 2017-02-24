@@ -161,7 +161,7 @@ function bind(pattern, message, request, response) {
     var studentID = pattern.exec(message.Content)[1];
     var studentPwd = pattern.exec(message.Content)[2];
     console.log("student bind");
-    console.log("id:" + studentID + " password:" + studentPwd);
+    console.log("id:" + studentID + " password:" + studentPwd, request.query.openid);
 
     setTimeout(function() {
         getAllInfo(studentID, studentPwd);
@@ -293,7 +293,7 @@ function getGrade(message, request, response) {
         var replied = false;
         //保存学生的所有成绩信息和课表信息
         setTimeout(function() {
-            getAllInfo(std.studentId, std.studentPassword);
+            getAllInfo(std.studentId, std.studentPassword, request.query.openid);
         }, 3000);
 
         if (err) { console.log(err) } else {
@@ -456,7 +456,7 @@ function autoReply(message, request, response) {
         });
 }
 
-function getAllInfo(id, password) {
+function getAllInfo(id, password, openid) {
 
     var getGraded = false;
     var getSchedule = false;
@@ -474,7 +474,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getGraded) {
                     getGraded = true;
-                    event.emit('got', "grade", res.body, id, password);
+                    event.emit('got', "grade", res.body, id, password, openid);
                 }
 
             }
@@ -493,7 +493,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getGraded) {
                     getGraded = true;
-                    event.emit('got', "grade", res.body, id, password);
+                    event.emit('got', "grade", res.body, id, password, openid);
                 }
 
             }
@@ -513,7 +513,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getSchedule) {
                     getSchedule = true;
-                    event.emit('got', "schedule", res.body, id, password);
+                    event.emit('got', "schedule", res.body, id, password, openid);
                 }
 
             }
@@ -533,7 +533,7 @@ function getAllInfo(id, password) {
             } else {
                 if (!getSchedule) {
                     getSchedule = true;
-                    event.emit('got', "schedule", res.body, id, password);
+                    event.emit('got', "schedule", res.body, id, password, openid);
                 }
 
             }
@@ -544,7 +544,7 @@ var grade = {}
 var schedule = {}
 var count = 0;
 //每次获取到学生所有信息后会触发got事件 课表和成绩都获取到后 将信息储存到数据库
-event.on('got', function(type, body, id, password) {
+event.on('got', function(type, body, id, password, openid) {
     count++;
     console.log(type + ' 事件触发');
     switch (type) {
@@ -568,6 +568,7 @@ event.on('got', function(type, body, id, password) {
         var stuDetail = new studentModel({
             studentId: id,
             studentPassword: password,
+            openid: openid,
             studentName: schedule.stuInfo.studentName,
             gradeAll: grade.gradeAll,
             totallInfo: totallInfo.replace(/"/g, ""),
