@@ -264,8 +264,9 @@ function bind(pattern, message, request, response) {
                     studentId: studentID,
                     studentPassword: studentPwd
                 });
-                student.save();
-                console.log("saved new student infomation in database!");
+                student.save(function() {
+                    console.log("saved new student infomation in database!");
+                });
 
             }
         }
@@ -276,11 +277,14 @@ function bind(pattern, message, request, response) {
 function unbind(message, request, response) {
     model.remove({ openid: request.query.openid }, function() {
         console.log("delect data of " + request.query.openid);
-        response.reply({
-            type: "text",
-            content: "您已解除绑定 重新绑定--><a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
-        })
+        studentModel.remove({ openid: request.query.openid }, function() {
+            response.reply({
+                type: "text",
+                content: "您已解除绑定 重新绑定--><a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
+            })
+        });
     });
+
 }
 
 function getGrade(message, request, response) {
@@ -296,7 +300,7 @@ function getGrade(message, request, response) {
                     getAllInfo(std.studentId, std.studentPassword, request.query.openid);
                 }, 2000);
 
-                
+
                 superagent
                     .post('http://cqyou.top:5000/api/grade')
                     .send({
