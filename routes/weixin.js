@@ -643,7 +643,7 @@ function getAll(id, password, openid) {
         .post('http://cqyou.top:5000/api/all')
         .send({
             "stdid": id,
-            "stdpwd": new Buffer(pwd).toString('base64'),
+            "stdpwd": new Buffer(password).toString('base64'),
             "week": null
         })
         .set('Content-Type', 'application/json')
