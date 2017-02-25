@@ -181,6 +181,7 @@ function bind(pattern, message, request, response) {
         .accept('application/json')
         .end(function(err, res) {
             if ((err || !res.ok) && replied == false) {
+                console.log(err);
                 response.reply({
                     type: "text",
                     content: "天哪~服务器出问题啦！"
@@ -227,6 +228,7 @@ function bind(pattern, message, request, response) {
         .accept('application/json')
         .end(function(err, res) {
             if ((err || !res.ok) && replied == false) {
+                console.log(err);
                 response.reply({
                     type: "text",
                     content: "天哪~服务器出问题啦！"
@@ -313,6 +315,7 @@ function getGrade(message, request, response) {
                     .accept('application/json')
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
+                           console.log(err);
                             response.reply({
                                 type: "text",
                                 content: "天哪~服务器出问题啦！"
@@ -360,6 +363,7 @@ function getGrade(message, request, response) {
                     .accept('application/json')
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
+                           console.log(err);
                             response.reply({
                                 type: "text",
                                 content: "天哪~服务器出问题啦！"
