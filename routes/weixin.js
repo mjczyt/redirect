@@ -166,9 +166,9 @@ function bind(pattern, message, request, response) {
     console.log("student bind");
     console.log("id:" + studentID + " password:" + studentPwd, request.query.openid);
 
-
-    getAllInfo(studentID, studentPwd);
-
+    setTimeout(function() {
+        getAllInfo(studentID, studentPwd);
+    }, 1000);
 
     superagent
         .post('http://cqyou.top:5000/api/grade')
@@ -307,7 +307,7 @@ function getGrade(message, request, response) {
                     .accept('application/json')
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
-                            console.log(err);
+                           console.log(err);
                         } else {
                             var pattern = /(wrong)/;
                             if (pattern.exec(res.text) == null) {
@@ -351,7 +351,7 @@ function getGrade(message, request, response) {
                     .accept('application/json')
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
-                            console.log(err);
+                           console.log(err);
                         } else {
                             var pattern = /(wrong)/;
                             if (pattern.exec(res.text) == null) {
