@@ -520,8 +520,8 @@ function getAll(id, password, openid) {
                 schedule: classTableArray
             });
             stuDetail.save(function() {
-                var endTime=Data.now();
-                console.log("saved " + id + " info" +"used "+endTime-startTime+" ms");
+                var endTime=Date.now();
+                console.log("updated " + id + " info " +" used: "+endTime-startTime+" ms");
             })
         });
 }
