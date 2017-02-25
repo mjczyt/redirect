@@ -152,7 +152,7 @@ function getSchedule(message, request, response) {
             // }]);
             response.reply({
                 type:"text",
-                content:"<a href=\"ophoto4.me:2000/main/"+request.query.openid+"\"">(。・∀・)ノ你的个人主页</a>"
+                content:"<a href=\"ophoto4.me:2000/main/"+request.query.openid+"\">(。・∀・)ノ你的个人主页</a>"
             })
         } else {
             response.reply({
