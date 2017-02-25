@@ -144,12 +144,16 @@ function getSchedule(message, request, response) {
         if (std) {
             //对密码进行bsae64编码
             var s = new Buffer(std.studentPassword).toString('base64');
-            response.reply([{
-                title: '您的课表 (。・∀・)ノ゛',
-                description: 'come to see this',
-                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: "ophoto4.me:2000/main/" + request.query.openid
-            }]);
+            // response.reply([{
+            //     title: '您的课表 (。・∀・)ノ゛',
+            //     description: 'come to see this',
+            //     picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+            //     url: "ophoto4.me:2000/main/" + request.query.openid
+            // }]);
+            response.reply({
+                type:"text",
+                content:"<a href=ophoto4.me:2000/main/"+request.query.openid+">(。・∀・)ノ你的个人主页</a>"
+            })
         } else {
             response.reply({
                 type: "text",
