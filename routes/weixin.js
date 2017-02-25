@@ -166,7 +166,7 @@ function bind(pattern, message, request, response) {
 
     setTimeout(function() {
         getAllInfo(studentID, studentPwd);
-    }, 1000);
+    }, 2000);
 
     superagent
         .post('http://cqyou.top:5000/api/grade')
