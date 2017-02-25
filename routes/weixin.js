@@ -90,7 +90,7 @@ function ranking(message, request, response) {
                 title: '进入绑定页面',
                 description: 'yo yo yo!',
                 picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: ophoto4.me:2000/bind/" + request.query.openid "
+                url: "ophoto4.me:2000/bind/" + request.query.openid 
             }]);
         }
     });
@@ -149,14 +149,14 @@ function getSchedule(message, request, response) {
                 title: '(。・∀・)ノ您的个人主页',
                 description: 'yo yo yo!',
                 picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: ophoto4.me:2000/main/" + request.query.openid "
+                url: "ophoto4.me:2000/main/" + request.query.openid 
             }]);
         } else {
              response.reply([{
                 title: '进入绑定页面',
                 description: 'yo yo yo!',
                 picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: ophoto4.me:2000/bind/" + request.query.openid "
+                url: "ophoto4.me:2000/bind/" + request.query.openid 
             }]);
         }
     });
@@ -377,7 +377,7 @@ function getGrade(message, request, response) {
                 title: '进入绑定页面',
                 description: 'yo yo yo!',
                 picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: ophoto4.me:2000/bind/" + request.query.openid "
+                url: "ophoto4.me:2000/bind/" + request.query.openid 
             }]);
             }
         }
