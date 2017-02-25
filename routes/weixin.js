@@ -467,178 +467,9 @@ function saveAccount(id, password, openid) {
     })
 }
 
-// function getAllInfo(id, password, openid) {
-//     var getGrade = false;
-//     var getGradedAll = false;
-//     var getSchedule = false;
-//     superagent
-//         .post('http://cqyou.top:5000/api/grade')
-//         .send({
-//             "stdid": id,
-//             "stdpwd": new Buffer(password).toString('base64')
-//         })
-//         .set('Content-Type', 'application/json')
-//         .redirects(0)
-//         .end(function(err, res) {
-//             if (err || !res.ok) {
-//                 console.log('Oh no! error');
-//             } else {
-//                 if (!getGrade) {
-//                     getGrade = true;
-//                     event.emit('got', "grade", res.body, id, password, openid);
-//                 }
-
-//             }
-//         });
-//     superagent
-//         .post('http://cqyou.top:5000/apiB/grade')
-//         .send({
-//             "stdid": id,
-//             "stdpwd": new Buffer(password).toString('base64')
-//         })
-//         .set('Content-Type', 'application/json')
-//         .redirects(0)
-//         .end(function(err, res) {
-//             if (err || !res.ok) {
-//                 console.log('Oh no! error');
-//             } else {
-//                 if (!getGrade) {
-//                     getGrade = true;
-//                     event.emit('got', "grade", res.body, id, password, openid);
-//                 }
-
-//             }
-//         });
-//     superagent
-//         .post('http://cqyou.top:5000/apiB/gradeAll')
-//         .send({
-//             "stdid": id,
-//             "stdpwd": new Buffer(password).toString('base64')
-//         })
-//         .set('Content-Type', 'application/json')
-//         .redirects(0)
-//         .end(function(err, res) {
-//             if (err || !res.ok) {
-//                 console.log('Oh no! error');
-//             } else {
-//                 if (!getGradedAll) {
-//                     getGradedAll = true;
-//                     event.emit('got', "gradeAll", res.body, id, password, openid);
-//                 }
-
-//             }
-//         });
-//     superagent
-//         .post('http://cqyou.top:5000/api/gradeAll')
-//         .send({
-//             "stdid": id,
-//             "stdpwd": new Buffer(password).toString('base64')
-//         })
-//         .set('Content-Type', 'application/json')
-//         .redirects(0)
-//         .end(function(err, res) {
-//             if (err || !res.ok) {
-//                 console.log('Oh no! error');
-//             } else {
-//                 if (!getGradedAll) {
-//                     getGradedAll = true;
-//                     event.emit('got', "gradeAll", res.body, id, password, openid);
-//                 }
-
-//             }
-//         });
-//     superagent
-//         .post('http://cqyou.top:5000/apiB/schedule')
-//         .send({
-//             "stdid": id,
-//             "stdpwd": new Buffer(password).toString('base64'),
-//             "week": null
-//         })
-//         .set('Content-Type', 'application/json')
-//         .redirects(0)
-//         .end(function(err, res) {
-//             if (err || !res.ok) {
-//                 console.log('Oh no! error');
-//             } else {
-//                 if (!getSchedule) {
-//                     getSchedule = true;
-//                     event.emit('got', "schedule", res.body, id, password, openid);
-//                 }
-
-//             }
-//         });
-//     superagent
-//         .post('http://cqyou.top:5000/api/schedule')
-//         .send({
-//             "stdid": id,
-//             "stdpwd": new Buffer(password).toString('base64'),
-//             "week": null
-//         })
-//         .set('Content-Type', 'application/json')
-//         .redirects(0)
-//         .end(function(err, res) {
-//             if (err || !res.ok) {
-//                 console.log('Oh no! error');
-//             } else {
-//                 if (!getSchedule) {
-//                     getSchedule = true;
-//                     event.emit('got', "schedule", res.body, id, password, openid);
-//                 }
-
-//             }
-//         });
-// }
-
-// var grade = {};
-// var gradeAll = {};
-// var schedule = {};
-// var count = 0;
-// //每次获取到学生所有信息后会触发got事件 课表和成绩都获取到后 将信息储存到数据库
-// event.on('got', function(type, body, id, password, openid) {
-//     count++;
-//     console.log(type + ' 事件触发');
-//     switch (type) {
-//         case "schedule":
-//             schedule = body;
-//             break;
-//         case "gradeAll":
-//             gradeAll = body;
-//             break;
-//         case "grade":
-//             grade = body;
-//             break;
-//     }
-
-//     if (count % 3 == 0 && body.status == undefined && gradeAll != null && schedule != null && grade != null) {
-
-//         studentModel.findOneAndRemove({ studentId: id }, function() {
-//             console.log("update " + id + " info");
-//         });
-//         var totallInfo = JSON.stringify(gradeAll.totallInfo);
-//         var classTable = schedule.classTable;
-//         var classTableArray = classTable.split("|");
-//         var stuDetail = new studentModel({
-//             studentId: id,
-//             studentPassword: password,
-//             openid: openid,
-//             studentName: schedule.stuInfo.studentName,
-//             gradeAll: gradeAll.gradeAll,
-//             grade: grade.grade,
-//             totallInfo: totallInfo.replace(/"/g, ""),
-//             schedule: classTableArray
-//         });
-//         stuDetail.save(function() {
-//             console.log("saved " + id + " info");
-//         })
-//         gradeAll = {};
-//         schedule = {};
-//     } else if (body.status == 'wrong') {
-//         console.log('账号密码错误.');
-//     }
-
-// });
 
 function getAll(id, password, openid) {
+    var startTime=Date.now();
     superagent
         .post('http://cqyou.top:5000/api/all')
         .send({
@@ -674,7 +505,9 @@ function getAll(id, password, openid) {
                     totallInfo = JSON.stringify(obj.totallInfo);
                 }
             }
-
+            studentModel.findOneAndRemove({ studentId: id }, function() {
+                console.log("update " + id + " info");
+            });
             var classTableArray = schedule.split("|");
             var stuDetail = new studentModel({
                 studentId: id,
@@ -687,10 +520,9 @@ function getAll(id, password, openid) {
                 schedule: classTableArray
             });
             stuDetail.save(function() {
-                console.log("saved " + id + " info" + stuDetail);
+                var endTime=Data.now();
+                console.log("saved " + id + " info" +"used "+endTime-startTime+" ms");
             })
-
-
         });
 }
 
