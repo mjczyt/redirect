@@ -86,10 +86,12 @@ function ranking(message, request, response) {
             id = std.studentId.toString();
             getRanking(id, response);
         } else {
-            response.reply({
-                type: "text",
-                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
-            })
+            response.reply([{
+                title: '进入绑定页面',
+                description: 'yo yo yo!',
+                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                url: ophoto4.me:2000/bind/" + request.query.openid "
+            }]);
         }
     });
 }
@@ -138,22 +140,24 @@ function getRanking(id, response) {
 
 function getSchedule(message, request, response) {
     model.findOne({ openid: request.query.openid }, function(err, std) {
-
-
         if (std) {
             //对密码进行bsae64编码
             getAll(std.studentId, std.studentPassword, request.query.openid);
 
             var s = new Buffer(std.studentPassword).toString('base64');
-            response.reply({
-                type: "text",
-                content: "(。・∀・)ノ您的<a href=\"ophoto4.me:2000/main/" + request.query.openid + "\"> ·个人主页· </a>"
-            })
+            response.reply([{
+                title: '(。・∀・)ノ您的个人主页',
+                description: 'yo yo yo!',
+                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                url: ophoto4.me:2000/main/" + request.query.openid "
+            }]);
         } else {
-            response.reply({
-                type: "text",
-                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
-            })
+             response.reply([{
+                title: '进入绑定页面',
+                description: 'yo yo yo!',
+                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                url: ophoto4.me:2000/bind/" + request.query.openid "
+            }]);
         }
     });
 }
@@ -164,9 +168,6 @@ function bind(pattern, message, request, response) {
     var studentPwd = pattern.exec(message.Content)[2];
     console.log("student bind");
     console.log("id:" + studentID + " password:" + studentPwd, request.query.openid);
-
-
-
     superagent
         .post('http://cqyou.top:5000/api/grade')
         .send({
@@ -258,10 +259,6 @@ function bind(pattern, message, request, response) {
             }
         });
 
-
-
-
-
 }
 
 function unbind(message, request, response) {
@@ -274,7 +271,6 @@ function unbind(message, request, response) {
             })
         });
     });
-
 }
 
 function getGrade(message, request, response) {
@@ -285,8 +281,6 @@ function getGrade(message, request, response) {
 
         if (err) { console.log(err) } else {
             if (std != null) {
-
-
                 superagent
                     .post('http://cqyou.top:5000/api/grade')
                     .send({
@@ -332,9 +326,6 @@ function getGrade(message, request, response) {
                             }
                         }
                     });
-
-
-
                 superagent
                     .post('http://cqyou.top:5000/apiB/grade')
                     .send({
@@ -382,10 +373,12 @@ function getGrade(message, request, response) {
 
 
             } else {
-                response.reply({
-                    type: "text",
-                    content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
-                })
+                response.reply([{
+                title: '进入绑定页面',
+                description: 'yo yo yo!',
+                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                url: ophoto4.me:2000/bind/" + request.query.openid "
+            }]);
             }
         }
     })
@@ -469,7 +462,7 @@ function saveAccount(id, password, openid) {
 
 
 function getAll(id, password, openid) {
-    var startTime=Date.now();
+    var startTime = Date.now();
     superagent
         .post('http://cqyou.top:5000/api/all')
         .send({
@@ -505,7 +498,7 @@ function getAll(id, password, openid) {
                 }
             }
             studentModel.remove({ openid: openid }, function() {
-                console.log("removed old data of "+id);
+                console.log("removed old data of " + id);
             });
             var classTableArray = schedule.split("|");
             var stuDetail = new studentModel({
@@ -519,8 +512,8 @@ function getAll(id, password, openid) {
                 schedule: classTableArray
             });
             stuDetail.save(function() {
-                var endTime=Date.now();
-                console.log("updated " + id + " info " +" used: "+ (endTime-startTime)+" ms");
+                var endTime = Date.now();
+                console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
             })
         });
 }
