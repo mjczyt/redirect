@@ -88,7 +88,7 @@ function ranking(message, request, response) {
         } else {
             response.reply({
                 type: "text",
-                content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
+                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
             })
         }
     });
@@ -144,20 +144,14 @@ function getSchedule(message, request, response) {
         if (std) {
             //对密码进行bsae64编码
             var s = new Buffer(std.studentPassword).toString('base64');
-            // response.reply([{
-            //     title: '您的课表 (。・∀・)ノ゛',
-            //     description: 'come to see this',
-            //     picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-            //     url: "ophoto4.me:2000/main/" + request.query.openid
-            // }]);
             response.reply({
                 type:"text",
-                content:"<a href=\"ophoto4.me:2000/main/"+request.query.openid+"\">(。・∀・)ノ你的个人主页</a>"
+                content:"(。・∀・)ノ您的<a href=\"ophoto4.me:2000/main/"+request.query.openid+"\"> ·个人主页· </a>"
             })
         } else {
             response.reply({
                 type: "text",
-                content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233"
+                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
             })
         }
     });
@@ -283,7 +277,7 @@ function unbind(message, request, response) {
         console.log("delect data of " + request.query.openid);
         response.reply({
             type: "text",
-            content: "您已经解除绑定 重新回复学号 密码绑定教务网账号。"
+            content: "您已解除绑定 重新绑定--><a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
         })
     });
 }
@@ -390,7 +384,7 @@ function getGrade(message, request, response) {
             } else {
                 response.reply({
                     type: "text",
-                    content: "请先回复学号 密码 绑定教务网账号. 如回复 20142794 112233 （中间记得空格间隔）"
+                    content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
                 })
             }
         }
