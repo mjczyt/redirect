@@ -317,7 +317,7 @@ function getGrade(message, request, response) {
                                     });
                                     //更新学生的所有成绩信息和课表信息
 
-                                    getAllInfo(std.studentId, std.studentPassword, request.query.openid);
+                                    getAll(std.studentId, std.studentPassword, request.query.openid);
 
                                     replied = true;
                                 }
@@ -364,7 +364,7 @@ function getGrade(message, request, response) {
                                         content: stuGrade
                                     });
                                     //更新学生的所有成绩信息和课表信息
-                                    getAllInfo(std.studentId, std.studentPassword, request.query.openid);
+                                    getAll(std.studentId, std.studentPassword, request.query.openid);
 
                                     replied = true;
                                 }
@@ -487,7 +487,6 @@ function getAll(id, password, openid) {
             var gradeAll = null;
 
             var array = res.text.split("\n");
-            console.log(array.length);
             var obj1 = JSON.parse(array[0]);
             var obj2 = JSON.parse(array[1]);
             var obj3 = JSON.parse(array[2]);
@@ -521,7 +520,7 @@ function getAll(id, password, openid) {
             });
             stuDetail.save(function() {
                 var endTime=Date.now();
-                console.log("updated " + id + " info " +" used: "+endTime-startTime+" ms");
+                console.log("updated " + id + " info " +" used: "+ (endTime-startTime)+" ms");
             })
         });
 }
