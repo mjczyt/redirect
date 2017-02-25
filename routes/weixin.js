@@ -504,8 +504,9 @@ function getAll(id, password, openid) {
                     totallInfo = JSON.stringify(obj.totallInfo);
                 }
             }
-            //删除旧的数据
-            studentModel.findOneAndRemove({ studentId: id });
+            studentModel.remove({ openid: openid }, function() {
+                console.log("removed old data of "+id);
+            });
             var classTableArray = schedule.split("|");
             var stuDetail = new studentModel({
                 studentId: id,
