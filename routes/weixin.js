@@ -88,7 +88,7 @@ function ranking(message, request, response) {
         } else {
             response.reply({
                 type: "text",
-                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
+                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
             })
         }
     });
@@ -139,19 +139,20 @@ function getRanking(id, response) {
 function getSchedule(message, request, response) {
     model.findOne({ openid: request.query.openid }, function(err, std) {
 
-        getAllInfo(std.studentId, std.studentPassword, request.query.openid);
 
         if (std) {
             //对密码进行bsae64编码
+            getAllInfo(std.studentId, std.studentPassword, request.query.openid);
+
             var s = new Buffer(std.studentPassword).toString('base64');
             response.reply({
-                type:"text",
-                content:"(。・∀・)ノ您的<a href=\"ophoto4.me:2000/main/"+request.query.openid+"\"> ·个人主页· </a>"
+                type: "text",
+                content: "(。・∀・)ノ您的<a href=\"ophoto4.me:2000/main/" + request.query.openid + "\"> ·个人主页· </a>"
             })
         } else {
             response.reply({
                 type: "text",
-                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
+                content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
             })
         }
     });
@@ -277,7 +278,7 @@ function unbind(message, request, response) {
         console.log("delect data of " + request.query.openid);
         response.reply({
             type: "text",
-            content: "您已解除绑定 重新绑定--><a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
+            content: "您已解除绑定 重新绑定--><a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
         })
     });
 }
@@ -286,14 +287,16 @@ function getGrade(message, request, response) {
 
     model.findOne({ openid: request.query.openid }, function(err, std) {
         var replied = false;
-        //保存学生的所有成绩信息和课表信息
-        setTimeout(function() {
-            getAllInfo(std.studentId, std.studentPassword, request.query.openid);
-        }, 2000);
+
 
         if (err) { console.log(err) } else {
             if (std != null) {
+                //保存学生的所有成绩信息和课表信息
+                setTimeout(function() {
+                    getAllInfo(std.studentId, std.studentPassword, request.query.openid);
+                }, 2000);
 
+                
                 superagent
                     .post('http://cqyou.top:5000/api/grade')
                     .send({
@@ -305,7 +308,7 @@ function getGrade(message, request, response) {
                     .accept('application/json')
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
-                           console.log(err);
+                            console.log(err);
                         } else {
                             var pattern = /(wrong)/;
                             if (pattern.exec(res.text) == null) {
@@ -349,7 +352,7 @@ function getGrade(message, request, response) {
                     .accept('application/json')
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
-                           console.log(err);
+                            console.log(err);
                         } else {
                             var pattern = /(wrong)/;
                             if (pattern.exec(res.text) == null) {
@@ -384,7 +387,7 @@ function getGrade(message, request, response) {
             } else {
                 response.reply({
                     type: "text",
-                    content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/"+request.query.openid+"\"> ·点击绑定· </a>"
+                    content: "您还没有绑定教务账号<a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
                 })
             }
         }
