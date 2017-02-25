@@ -182,10 +182,6 @@ function bind(pattern, message, request, response) {
         .end(function(err, res) {
             if ((err || !res.ok) && replied == false) {
                 console.log(err);
-                response.reply({
-                    type: "text",
-                    content: "天哪~服务器出问题啦！"
-                });
             } else {
                 var pattern = /(wrong)/;
                 if (pattern.exec(res.text) == null) {
@@ -229,10 +225,6 @@ function bind(pattern, message, request, response) {
         .end(function(err, res) {
             if ((err || !res.ok) && replied == false) {
                 console.log(err);
-                response.reply({
-                    type: "text",
-                    content: "天哪~服务器出问题啦！"
-                });
             } else {
                 var pattern = /(wrong)/;
                 if (pattern.exec(res.text) == null) {
@@ -316,10 +308,6 @@ function getGrade(message, request, response) {
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
                            console.log(err);
-                            response.reply({
-                                type: "text",
-                                content: "天哪~服务器出问题啦！"
-                            });
                         } else {
                             var pattern = /(wrong)/;
                             if (pattern.exec(res.text) == null) {
@@ -364,10 +352,6 @@ function getGrade(message, request, response) {
                     .end(function(err, res) {
                         if ((err || !res.ok) && replied == false) {
                            console.log(err);
-                            response.reply({
-                                type: "text",
-                                content: "天哪~服务器出问题啦！"
-                            });
                         } else {
                             var pattern = /(wrong)/;
                             if (pattern.exec(res.text) == null) {
