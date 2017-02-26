@@ -90,7 +90,7 @@ function ranking(message, request, response) {
                 title: '进入绑定页面',
                 description: 'yo yo yo!',
                 picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: "ophoto4.me:2000/bind/" + request.query.openid 
+                url: "ophoto4.me:2000/bind/" + request.query.openid
             }]);
         }
     });
@@ -149,14 +149,14 @@ function getSchedule(message, request, response) {
                 title: '(。・∀・)ノ您的个人主页',
                 description: 'yo yo yo!',
                 picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: "ophoto4.me:2000/main/" + request.query.openid 
+                url: "ophoto4.me:2000/main/" + request.query.openid
             }]);
         } else {
-             response.reply([{
+            response.reply([{
                 title: '进入绑定页面',
                 description: 'yo yo yo!',
                 picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: "ophoto4.me:2000/bind/" + request.query.openid 
+                url: "ophoto4.me:2000/bind/" + request.query.openid
             }]);
         }
     });
@@ -374,11 +374,11 @@ function getGrade(message, request, response) {
 
             } else {
                 response.reply([{
-                title: '进入绑定页面',
-                description: 'yo yo yo!',
-                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
-                url: "ophoto4.me:2000/bind/" + request.query.openid 
-            }]);
+                    title: '进入绑定页面',
+                    description: 'yo yo yo!',
+                    picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                    url: "ophoto4.me:2000/bind/" + request.query.openid
+                }]);
             }
         }
     })
@@ -463,6 +463,7 @@ function saveAccount(id, password, openid) {
 
 function getAll(id, password, openid) {
     var startTime = Date.now();
+    var gotAll = false;
     superagent
         .post('http://cqyou.top:5000/api/all')
         .send({
@@ -473,6 +474,7 @@ function getAll(id, password, openid) {
         .set('Content-Type', 'application/json')
         .redirects(0)
         .end(function(err, res) {
+
             var studentName = null;
             var totallInfo = null;
             var schedule = null;
@@ -497,24 +499,86 @@ function getAll(id, password, openid) {
                     totallInfo = JSON.stringify(obj.totallInfo);
                 }
             }
-            studentModel.remove({ openid: openid }, function() {
-                console.log("removed old data of " + id);
-            });
-            var classTableArray = schedule.split("|");
-            var stuDetail = new studentModel({
-                studentId: id,
-                studentPassword: password,
-                openid: openid,
-                studentName: studentName,
-                gradeAll: gradeAll,
-                grade: grade,
-                totallInfo: totallInfo.replace(/"/g, ""),
-                schedule: classTableArray
-            });
-            stuDetail.save(function() {
-                var endTime = Date.now();
-                console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
-            })
+            if (!gotAll) {
+                gotAll = true;
+                studentModel.remove({ openid: openid }, function() {
+                    console.log("removed old data of " + id);
+                });
+                var classTableArray = schedule.split("|");
+                var stuDetail = new studentModel({
+                    studentId: id,
+                    studentPassword: password,
+                    openid: openid,
+                    studentName: studentName,
+                    gradeAll: gradeAll,
+                    grade: grade,
+                    totallInfo: totallInfo.replace(/"/g, ""),
+                    schedule: classTableArray
+                });
+                stuDetail.save(function() {
+                    var endTime = Date.now();
+                    console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
+                })
+            }
+
+        });
+    superagent
+        .post('http://cqyou.top:5000/api/all')
+        .send({
+            "stdid": id,
+            "stdpwd": new Buffer(password).toString('base64'),
+            "week": null
+        })
+        .set('Content-Type', 'application/json')
+        .redirects(0)
+        .end(function(err, res) {
+
+            var studentName = null;
+            var totallInfo = null;
+            var schedule = null;
+            var grade = null;
+            var gradeAll = null;
+
+            var array = res.text.split("\n");
+            var obj1 = JSON.parse(array[0]);
+            var obj2 = JSON.parse(array[1]);
+            var obj3 = JSON.parse(array[2]);
+            for (var i = 0; i < 3; i++) {
+                var obj = JSON.parse(array[i]);
+                if (obj.stuInfo) {
+                    studentName = obj.stuInfo.studentName;
+                    schedule = obj.classTable;
+                }
+                if (obj.grade) {
+                    grade = obj.grade;
+                }
+                if (obj.gradeAll) {
+                    gradeAll = obj.gradeAll;
+                    totallInfo = JSON.stringify(obj.totallInfo);
+                }
+            }
+            if (!gotAll) {
+                gotAll = true;
+                studentModel.remove({ openid: openid }, function() {
+                    console.log("removed old data of " + id);
+                });
+                var classTableArray = schedule.split("|");
+                var stuDetail = new studentModel({
+                    studentId: id,
+                    studentPassword: password,
+                    openid: openid,
+                    studentName: studentName,
+                    gradeAll: gradeAll,
+                    grade: grade,
+                    totallInfo: totallInfo.replace(/"/g, ""),
+                    schedule: classTableArray
+                });
+                stuDetail.save(function() {
+                    var endTime = Date.now();
+                    console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
+                })
+            }
+
         });
 }
 
