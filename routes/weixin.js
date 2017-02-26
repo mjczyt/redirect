@@ -523,7 +523,7 @@ function getAll(id, password, openid) {
 
         });
     superagent
-        .post('http://cqyou.top:5000/api/all')
+        .post('http://cqyou.top:5000/apiB/all')
         .send({
             "stdid": id,
             "stdpwd": new Buffer(password).toString('base64'),
