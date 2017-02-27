@@ -460,7 +460,6 @@ function saveAccount(id, password, openid) {
     })
 }
 
-
 function getAll(id, password, openid) {
     var startTime = Date.now();
     var gotAll = false;
@@ -474,33 +473,31 @@ function getAll(id, password, openid) {
         .set('Content-Type', 'application/json')
         .redirects(0)
         .end(function(err, res) {
-
-            var studentName = null;
-            var totallInfo = null;
-            var schedule = null;
-            var grade = null;
-            var gradeAll = null;
-
-            var array = res.text.split("\n");
-            var obj1 = JSON.parse(array[0]);
-            var obj2 = JSON.parse(array[1]);
-            var obj3 = JSON.parse(array[2]);
-            for (var i = 0; i < 3; i++) {
-                var obj = JSON.parse(array[i]);
-                if (obj.stuInfo) {
-                    studentName = obj.stuInfo.studentName;
-                    schedule = obj.classTable;
-                }
-                if (obj.grade) {
-                    grade = obj.grade;
-                }
-                if (obj.gradeAll) {
-                    gradeAll = obj.gradeAll;
-                    totallInfo = JSON.stringify(obj.totallInfo);
-                }
-            }
             if (!gotAll) {
-                gotAll = true;
+                var studentName = null;
+                var totallInfo = null;
+                var schedule = null;
+                var grade = null;
+                var gradeAll = null;
+
+                var array = res.text.split("\n");
+                var obj1 = JSON.parse(array[0]);
+                var obj2 = JSON.parse(array[1]);
+                var obj3 = JSON.parse(array[2]);
+                for (var i = 0; i < 3; i++) {
+                    var obj = JSON.parse(array[i]);
+                    if (obj.stuInfo) {
+                        studentName = obj.stuInfo.studentName;
+                        schedule = obj.classTable;
+                    }
+                    if (obj.grade) {
+                        grade = obj.grade;
+                    }
+                    if (obj.gradeAll) {
+                        gradeAll = obj.gradeAll;
+                        totallInfo = JSON.stringify(obj.totallInfo);
+                    }
+                }
                 studentModel.remove({ openid: openid }, function() {
                     console.log("removed old data of " + id);
                 });
@@ -516,11 +513,11 @@ function getAll(id, password, openid) {
                     schedule: classTableArray
                 });
                 stuDetail.save(function() {
+                    gotAll = true;
                     var endTime = Date.now();
                     console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
                 })
             }
-
         });
     superagent
         .post('http://cqyou.top:5000/apiB/all')
@@ -532,33 +529,31 @@ function getAll(id, password, openid) {
         .set('Content-Type', 'application/json')
         .redirects(0)
         .end(function(err, res) {
-
-            var studentName = null;
-            var totallInfo = null;
-            var schedule = null;
-            var grade = null;
-            var gradeAll = null;
-
-            var array = res.text.split("\n");
-            var obj1 = JSON.parse(array[0]);
-            var obj2 = JSON.parse(array[1]);
-            var obj3 = JSON.parse(array[2]);
-            for (var i = 0; i < 3; i++) {
-                var obj = JSON.parse(array[i]);
-                if (obj.stuInfo) {
-                    studentName = obj.stuInfo.studentName;
-                    schedule = obj.classTable;
-                }
-                if (obj.grade) {
-                    grade = obj.grade;
-                }
-                if (obj.gradeAll) {
-                    gradeAll = obj.gradeAll;
-                    totallInfo = JSON.stringify(obj.totallInfo);
-                }
-            }
             if (!gotAll) {
-                gotAll = true;
+                var studentName = null;
+                var totallInfo = null;
+                var schedule = null;
+                var grade = null;
+                var gradeAll = null;
+
+                var array = res.text.split("\n");
+                var obj1 = JSON.parse(array[0]);
+                var obj2 = JSON.parse(array[1]);
+                var obj3 = JSON.parse(array[2]);
+                for (var i = 0; i < 3; i++) {
+                    var obj = JSON.parse(array[i]);
+                    if (obj.stuInfo) {
+                        studentName = obj.stuInfo.studentName;
+                        schedule = obj.classTable;
+                    }
+                    if (obj.grade) {
+                        grade = obj.grade;
+                    }
+                    if (obj.gradeAll) {
+                        gradeAll = obj.gradeAll;
+                        totallInfo = JSON.stringify(obj.totallInfo);
+                    }
+                }
                 studentModel.remove({ openid: openid }, function() {
                     console.log("removed old data of " + id);
                 });
@@ -574,6 +569,7 @@ function getAll(id, password, openid) {
                     schedule: classTableArray
                 });
                 stuDetail.save(function() {
+                    gotAll = true;
                     var endTime = Date.now();
                     console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
                 })
