@@ -40,9 +40,9 @@ router.post('/', wechat('CQYOU', function(request, response, next) {
     //得到学号密码后绑定并回复成绩
     var isBind = pattern.test(message.Content);
     var isSubscribe = message.Event == 'subscribe';
-    var isGrade = (message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "查成绩");
+    var isGrade = (message.Content == "成绩" || message.Content == "grade" || message.Content == "g" || message.Content == "查成绩"||message.Content == "G");
     var isUnbind = message.Content == "解除绑定";
-    var isSchedule = (message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c");
+    var isSchedule = (message.Content == "课程表" || message.Content == '课表' || message.Content == "class" || message.Content == "c"||message.Content == "C");
     var isRanking = message.Content == "排名";
     switch (true) {
         case isBind:
