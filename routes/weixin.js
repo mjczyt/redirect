@@ -265,10 +265,12 @@ function unbind(message, request, response) {
     model.remove({ openid: request.query.openid }, function() {
         console.log("delect data of " + request.query.openid);
         studentModel.remove({ openid: request.query.openid }, function() {
-            response.reply({
-                type: "text",
-                content: "您已解除绑定 重新绑定--><a href=\"ophoto4.me:2000/bind/" + request.query.openid + "\"> ·点击绑定· </a>"
-            })
+             response.reply([{
+                title: '您已解除绑定,点击进入重新绑定页面',
+                description: 'yo yo yo!',
+                picurl: 'http://ojyfslgzw.bkt.clouddn.com/title.jpeg',
+                url: "ophoto4.me:2000/bind/" + request.query.openid
+            }]);
         });
     });
 }
