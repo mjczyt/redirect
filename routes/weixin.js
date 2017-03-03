@@ -481,44 +481,47 @@ function getAll(id, password, openid) {
                 var schedule = null;
                 var grade = null;
                 var gradeAll = null;
+                if (res.text) {
+                    var array = res.text.split("\n");
+                    var obj1 = JSON.parse(array[0]);
+                    var obj2 = JSON.parse(array[1]);
+                    var obj3 = JSON.parse(array[2]);
+                    for (var i = 0; i < 3; i++) {
+                        var obj = JSON.parse(array[i]);
+                        if (obj.stuInfo) {
+                            studentName = obj.stuInfo.studentName;
+                            schedule = obj.classTable;
+                        }
+                        if (obj.grade) {
+                            grade = obj.grade;
+                        }
+                        if (obj.gradeAll) {
+                            gradeAll = obj.gradeAll;
+                            totallInfo = JSON.stringify(obj.totallInfo);
+                        }
+                    }
+                    studentModel.remove({ openid: openid }, function() {
+                        console.log("removed old data of " + id);
+                        var classTableArray = schedule.split("|");
+                        var stuDetail = new studentModel({
+                            studentId: id,
+                            studentPassword: password,
+                            openid: openid,
+                            studentName: studentName,
+                            gradeAll: gradeAll,
+                            grade: grade,
+                            totallInfo: totallInfo.replace(/"/g, ""),
+                            schedule: classTableArray
+                        });
+                        stuDetail.save(function() {
+                            gotAll = true;
+                            var endTime = Date.now();
+                            console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
+                        })
+                    });
 
-                var array = res.text.split("\n");
-                var obj1 = JSON.parse(array[0]);
-                var obj2 = JSON.parse(array[1]);
-                var obj3 = JSON.parse(array[2]);
-                for (var i = 0; i < 3; i++) {
-                    var obj = JSON.parse(array[i]);
-                    if (obj.stuInfo) {
-                        studentName = obj.stuInfo.studentName;
-                        schedule = obj.classTable;
-                    }
-                    if (obj.grade) {
-                        grade = obj.grade;
-                    }
-                    if (obj.gradeAll) {
-                        gradeAll = obj.gradeAll;
-                        totallInfo = JSON.stringify(obj.totallInfo);
-                    }
                 }
-                studentModel.remove({ openid: openid }, function() {
-                    console.log("removed old data of " + id);
-                });
-                var classTableArray = schedule.split("|");
-                var stuDetail = new studentModel({
-                    studentId: id,
-                    studentPassword: password,
-                    openid: openid,
-                    studentName: studentName,
-                    gradeAll: gradeAll,
-                    grade: grade,
-                    totallInfo: totallInfo.replace(/"/g, ""),
-                    schedule: classTableArray
-                });
-                stuDetail.save(function() {
-                    gotAll = true;
-                    var endTime = Date.now();
-                    console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
-                })
+
             }
         });
     superagent
@@ -537,48 +540,52 @@ function getAll(id, password, openid) {
                 var schedule = null;
                 var grade = null;
                 var gradeAll = null;
+                if (res.text) {
+                    var array = res.text.split("\n");
+                    var obj1 = JSON.parse(array[0]);
+                    var obj2 = JSON.parse(array[1]);
+                    var obj3 = JSON.parse(array[2]);
+                    for (var i = 0; i < 3; i++) {
+                        var obj = JSON.parse(array[i]);
+                        if (obj.stuInfo) {
+                            studentName = obj.stuInfo.studentName;
+                            schedule = obj.classTable;
+                        }
+                        if (obj.grade) {
+                            grade = obj.grade;
+                        }
+                        if (obj.gradeAll) {
+                            gradeAll = obj.gradeAll;
+                            totallInfo = JSON.stringify(obj.totallInfo);
+                        }
+                    }
+                    studentModel.remove({ openid: openid }, function() {
+                        console.log("removed old data of " + id);
+                        var classTableArray = schedule.split("|");
+                        var stuDetail = new studentModel({
+                            studentId: id,
+                            studentPassword: password,
+                            openid: openid,
+                            studentName: studentName,
+                            gradeAll: gradeAll,
+                            grade: grade,
+                            totallInfo: totallInfo.replace(/"/g, ""),
+                            schedule: classTableArray
+                        });
+                        stuDetail.save(function() {
+                            gotAll = true;
+                            var endTime = Date.now();
+                            console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
+                        })
+                    });
 
-                var array = res.text.split("\n");
-                var obj1 = JSON.parse(array[0]);
-                var obj2 = JSON.parse(array[1]);
-                var obj3 = JSON.parse(array[2]);
-                for (var i = 0; i < 3; i++) {
-                    var obj = JSON.parse(array[i]);
-                    if (obj.stuInfo) {
-                        studentName = obj.stuInfo.studentName;
-                        schedule = obj.classTable;
-                    }
-                    if (obj.grade) {
-                        grade = obj.grade;
-                    }
-                    if (obj.gradeAll) {
-                        gradeAll = obj.gradeAll;
-                        totallInfo = JSON.stringify(obj.totallInfo);
-                    }
                 }
-                studentModel.remove({ openid: openid }, function() {
-                    console.log("removed old data of " + id);
-                });
-                var classTableArray = schedule.split("|");
-                var stuDetail = new studentModel({
-                    studentId: id,
-                    studentPassword: password,
-                    openid: openid,
-                    studentName: studentName,
-                    gradeAll: gradeAll,
-                    grade: grade,
-                    totallInfo: totallInfo.replace(/"/g, ""),
-                    schedule: classTableArray
-                });
-                stuDetail.save(function() {
-                    gotAll = true;
-                    var endTime = Date.now();
-                    console.log("updated " + id + " info " + " used: " + (endTime - startTime) + " ms");
-                })
+
             }
 
         });
 }
+
 
 
 module.exports = router;
