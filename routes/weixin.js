@@ -142,7 +142,7 @@ function getSchedule(message, request, response) {
     model.findOne({ openid: request.query.openid }, function(err, std) {
         if (std) {
             //对密码进行bsae64编码
-            getAll(std.studentId, std.studentPassword, request.query.openid);
+           
 
             var s = new Buffer(std.studentPassword).toString('base64');
             response.reply([{
@@ -311,9 +311,9 @@ function getGrade(message, request, response) {
                                         type: "text",
                                         content: stuGrade
                                     });
-                                    //更新学生的所有成绩信息和课表信息
+                                  
 
-                                    getAll(std.studentId, std.studentPassword, request.query.openid);
+                                  
 
                                     replied = true;
                                 }
@@ -356,8 +356,8 @@ function getGrade(message, request, response) {
                                         type: "text",
                                         content: stuGrade
                                     });
-                                    //更新学生的所有成绩信息和课表信息
-                                    getAll(std.studentId, std.studentPassword, request.query.openid);
+                                    
+                                    
 
                                     replied = true;
                                 }
