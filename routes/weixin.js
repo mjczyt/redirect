@@ -169,7 +169,7 @@ function bind(pattern, message, request, response) {
     console.log("student bind");
     console.log("id:" + studentID + " password:" + studentPwd, request.query.openid);
     superagent
-        .post('http://cqyou.top:5000/api/grade')
+        .post('http://ophoto4.me:5000/api/grade')
         .send({
             "stdid": studentID,
             "stdpwd": new Buffer(studentPwd).toString('base64')
@@ -215,7 +215,7 @@ function bind(pattern, message, request, response) {
 
 
     superagent
-        .post('http://cqyou.top:5000/apiB/grade')
+        .post('http://ophoto4.me:5000/apiB/grade')
         .send({
             "stdid": studentID,
             "stdpwd": new Buffer(studentPwd).toString('base64')
@@ -284,7 +284,7 @@ function getGrade(message, request, response) {
         if (err) { console.log(err) } else {
             if (std != null) {
                 superagent
-                    .post('http://cqyou.top:5000/api/grade')
+                    .post('http://ophoto4.me:5000/api/grade')
                     .send({
                         "stdid": std.studentId,
                         "stdpwd": new Buffer(std.studentPassword).toString('base64')
@@ -329,7 +329,7 @@ function getGrade(message, request, response) {
                         }
                     });
                 superagent
-                    .post('http://cqyou.top:5000/apiB/grade')
+                    .post('http://ophoto4.me:5000/apiB/grade')
                     .send({
                         "stdid": std.studentId,
                         "stdpwd": new Buffer(std.studentPassword).toString('base64')
@@ -466,7 +466,7 @@ function getAll(id, password, openid) {
     var startTime = Date.now();
     var gotAll = false;
     superagent
-        .post('http://cqyou.top:5000/api/all')
+        .post('http://ophoto4.me:5000/api/all')
         .send({
             "stdid": id,
             "stdpwd": new Buffer(password).toString('base64'),
@@ -526,7 +526,7 @@ function getAll(id, password, openid) {
             }
         });
     superagent
-        .post('http://cqyou.top:5000/apiB/all')
+        .post('http://ophoto4.me:5000/apiB/all')
         .send({
             "stdid": id,
             "stdpwd": new Buffer(password).toString('base64'),
